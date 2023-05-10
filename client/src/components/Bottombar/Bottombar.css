@@ -1,0 +1,145 @@
+/* bottombar css */
+.bottombar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(240,240, 240);
+  padding: 10px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+/* call analytics button css */
+.analytics {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: #fff;
+  height: 45px;
+  border-radius: 18px;
+  padding: 0 8px;
+}
+
+.analytics img {
+  margin-right: 3px;
+  width: 20px;
+  height: 20px;
+}
+
+/* Middle four icons css */
+.activities {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-grow: 0.1;
+  /* margin: 0 10px; */
+}
+.activities div {
+  cursor: pointer;
+  /* pointer-events: none; */
+  flex-grow: 0.1;
+  /* margin-left: 20px; */
+  width: 35px;
+  height: 45px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  border-radius: 50%;
+  background-color: #fff;
+}
+
+.activities .call-container {
+  background-color: red;
+  height: 45px;
+  width: 70px;
+  border-radius: 30px;
+}
+.activities .call-container img {
+  height: 85px;
+  width: 85px;
+}
+
+.activities img {
+  width: 22px;
+  height: 22px;
+}
+
+/* chat icon css */
+.chat div {
+  display: flex;
+  justify-content: space-evenly;
+  width: 45px;
+  height: 45px;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.chat img {
+  width: 20px;
+  height: 20px;
+}
+
+@media (max-width: 768px) {
+  .bottombar {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .analytics {
+    order: 1;
+    margin-right: auto;
+    margin-left: 8px;
+    background-color: #fff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+  }
+
+  .text {
+    display: none;
+  }
+
+  .activities {
+    order: 2;
+    margin: 10px 0;
+  }
+  .activities div {
+    /* flex-grow:0.2; */
+    width: 40px;
+    height: 40px;
+    margin: 0 2px;
+  }
+  .activities img {
+    width: 20px;
+    height: 20px;
+  }
+  .activities .call-container {
+    background-color: red;
+    width: 40px;
+    height: 40px;
+    /* width: 75px; */
+    border-radius: 50%;
+  }
+  .activities .call-container img {
+    /* margin-top: 0; */
+    height: 60px;
+    width: 60px;
+  }
+
+  .chat {
+    order: 3;
+    margin-left: auto;
+    margin-right: 8px;
+  }
+  .chat div {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+

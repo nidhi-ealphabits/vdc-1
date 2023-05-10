@@ -1,0 +1,53 @@
+.analyties-header{
+  display: flex;
+  flex-direction: row;
+}
+
+.logo{
+  width: 200px;
+}
+
+.analyties-text{
+  text-align: end;
+}
+
+.analyties-table{
+  height: 50px;
+}
+
+.pie-chart{
+  height:400px;
+}
+
+@media screen and (max-width: 768px) {
+.analyties-header {
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo {
+  width: 150px;
+  margin-bottom: 10px;
+}
+
+.analyties-text {
+  text-align: center;
+}
+
+.col-md-4.chart-container {
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.col-md-8.list-container {
+  width: 100%;
+}
+
+.analyties-table {
+  height: auto;
+}
+
+.pie-chart {
+  height: 250px;
+}
+}
