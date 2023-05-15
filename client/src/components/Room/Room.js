@@ -316,18 +316,19 @@ function Room() {
       //       {/* <i className="fas fa-expand"></i> */}
       //       <VideoCard key={index} peer={peer} number={arr.length} />
       // </div>
-      <div className="VideoContainer">
+      // <div className="VideoContainer">
       <div
         className={`video-box width-peer${
           peers.length > 8 ? "" : peers.length
         }`}
+        key={index}
       >
         {writeUserName(peer.userName)}
         {/* <i className="FaIcon fas fa-expand"></i> */}
         {/* <video className="MyVideo" muted autoPlay playsInline></video> */}
         <VideoCard key={index} peer={peer} number={arr.length} />
       </div>
-      </div>
+      // </div>
     );
   }
 
@@ -524,7 +525,7 @@ function Room() {
       )}
       {room && (
         <>
-          {" "}
+         }
           <Header />
           <div style={{ zIndex: 1 }}>
             {/* <CardGrid/> */}
@@ -538,7 +539,7 @@ function Room() {
                   {/* {writeUserName(peer.currentUser)} */}
                   {/* <i className="fas fa-expand"></i> */}
                   <video
-                    className="video-display-box ms-0 me-0"
+                    className="video-display-box"
                     ref={userVideoRef}
                     muted
                     autoPlay
@@ -546,33 +547,42 @@ function Room() {
                   ></video>
                 </div>
               </div>
-            ) :  <div className="videoContainer">
-            <div
-              className={`video-box width-peer${
-                peers.length > 8 ? "" : peers.length
-              }`}
-            >
-              {userVideoAudio["localUser"].video ? null : (
-                <div className="UserName">{currentUser}</div>
-              )}
-              {/* {writeUserName(peer.currentUser)} */}
-              {/* <i className="fas fa-expand"></i> */}
-              <video
-                className="video-card"
-                ref={userVideoRef}
-                muted
-                autoPlay
-                playsInline
-              ></video>
-            </div>
-            {peers &&
-              peers.map((peer, index, arr) =>
-                createUserVideo(peer, index, arr)
-              )}
-          </div>}
-            {/* {peers.length === 1 ? ( */}
-             
-            {/* ) : null} */}
+            ) : (
+              <div className="videocontainer">
+                <div
+                  className={`video-box width-peer${
+                    peers.length > 8 ? "" : peers.length
+                  }`}
+                >
+                  {userVideoAudio["localUser"].video ? null : (
+                    <div className="UserName">{currentUser}</div>
+                  )}
+                  {/* {writeUserName(peer.currentUser)} */}
+                  {/* <i className="fas fa-expand"></i> */}
+                  <video
+                    //  className="video-card"
+                    ref={userVideoRef}
+                    muted
+                    playsInline 
+                    autoPlay
+                  ></video>
+                </div>
+                {peers.map((peer, index, arr) => (
+                    //  createUserVideo(peer, index, arr)
+                    <div
+                      className={`video-box width-peer${
+                        peers.length > 8 ? "" : peers.length
+                      }`}
+                      key={index}
+                    >
+                      {writeUserName(peer.userName)}
+                      {/* <i className="FaIcon fas fa-expand"></i> */}
+                      {/* <video className="MyVideo" muted autoPlay playsInline></video> */}
+                      <VideoCard key={index} peer={peer} number={arr.length} />
+                    </div>
+                  ))}
+              </div>
+            )}
 
             {/* <div
               className={`video-box width-peer${

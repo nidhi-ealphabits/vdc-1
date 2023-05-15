@@ -491,7 +491,7 @@ const navigate=useNavigate()
           <Header />
           <div style={{ zIndex: 1 }}>
             {/* <CardGrid/> */}
-            <div className="video-container">
+            <div className="videocontainer">
             <div
               className={`video-box width-peer${
                 peers.length > 8 ? "" : peers.length
