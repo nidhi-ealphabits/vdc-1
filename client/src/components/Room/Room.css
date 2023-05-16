@@ -24,9 +24,12 @@ body{
   gap: 8px;
 }
 .videocontainer {
-  position: fixed;
+  position: relative;
   /* background-color: black; */ 
   max-width: 100%;
+  max-height: 100%;
+  /* overflow: hidden; */
+ /* height: 92%; */
   /* height: 92%; */
   /* padding: 0 50px; */
   /* display: flex;
@@ -34,10 +37,12 @@ body{
   display: grid;
   grid-template-columns: repeat(2, 1fr); 
   grid-gap: 10px; 
-  justify-content: space-around;
+  grid-auto-rows: 500px;
+  /* justify-content: space-around;
+  justify-items: center; */
   /* flex-wrap: wrap; */
-  align-items: center;
-  overflow: auto;
+  /* align-items: center; */
+  
   /* padding: 15px 0px; */
   /* padding-top: 55px; */
   /* padding-top: 8vh; */
@@ -46,10 +51,11 @@ body{
 }
 
 .video-display-box {
-  padding-top: 4vh;
-  padding-bottom: 10vh;
-  height: 97vh;
+  height: 644px;
+  padding-bottom: 65px;
+  padding-top: 30px;
 }
+
 
 /* .video-card{
   position: relative;
@@ -61,19 +67,22 @@ body{
   /* height:89vh; */
   /* background-color: blue; */
   position: relative;
+  overflow: hidden;
   /* display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: row; */
-  /* justify-content: center; */
+  justify-content: center;
   /* align-items: center; */
 }
+
 
 .video-box > video {
   top: 0;
   left: 0; 
   width: 100%;
   height: 100%;
+  object-fit: cover;
    /* background-color: rgb(158, 19, 42); */
   /* top: 0; */
   /* height: 350px; */
