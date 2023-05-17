@@ -1,0 +1,52 @@
+/* Mobile Devices:
+
+Small screens (portrait orientation): 320px - 480px
+Small screens (landscape orientation): 481px - 767px
+Medium screens: 768px - 991px
+Large screens: 992px - 1199px
+Tablets:
+
+Portrait orientation: 768px - 991px
+Landscape orientation: 992px - 1199px
+Desktops:
+
+Standard desktop screens: 1200px and above */
+
+/* Styles for small screens (up to 767px) */
+@media (max-width: 767px) {
+    /* CSS rules specific to small screens */
+    body {
+      font-size: 14px;
+    }
+    
+    .container {
+      width: 100%;
+      padding: 10px;
+    }
+  }
+  
+  /* Styles for medium screens (768px to 991px) */
+  @media (min-width: 768px) and (max-width: 991px) {
+    /* CSS rules specific to medium screens */
+    body {
+      font-size: 16px;
+    }
+    
+    .container {
+      width: 80%;
+      padding: 20px;
+    }
+  }
+  
+  /* Styles for large screens (992px and above) */
+  @media (min-width: 992px) {
+    /* CSS rules specific to large screens */
+    body {
+      font-size: 18px;
+    }
+    
+    .container {
+      width: 60%;
+      padding: 30px;
+    }
+  }
