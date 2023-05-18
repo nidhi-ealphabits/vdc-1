@@ -10,6 +10,7 @@ import Header from "../Header/Header";
 import socket from "../Socket/socket";
 import VideoCard from "./VideoCard";
 import "./Room.css";
+import "./responsive.css";
 import Details from "../Main/Details";
 import { Modal, Button, FloatingLabel, Form } from "react-bootstrap";
 import Chat from "../Chat/Chat";

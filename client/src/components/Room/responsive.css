@@ -13,40 +13,23 @@ Desktops:
 Standard desktop screens: 1200px and above */
 
 /* Styles for small screens (up to 767px) */
-@media (max-width: 767px) {
-    /* CSS rules specific to small screens */
-    body {
-      font-size: 14px;
-    }
-    
-    .container {
-      width: 100%;
-      padding: 10px;
-    }
+@media (max-width: 768px) {
+}
+@media (max-width: 320px) {
+  .videoContainer {
+    margin-top: 18px;
+    height: 450px;
   }
-  
-  /* Styles for medium screens (768px to 991px) */
-  @media (min-width: 768px) and (max-width: 991px) {
-    /* CSS rules specific to medium screens */
-    body {
-      font-size: 16px;
-    }
-    
-    .container {
-      width: 80%;
-      padding: 20px;
-    }
+  .one-video {
+    padding-top: 15px;
+    height: 480px;
   }
-  
-  /* Styles for large screens (992px and above) */
-  @media (min-width: 992px) {
-    /* CSS rules specific to large screens */
-    body {
-      font-size: 18px;
-    }
-    
-    .container {
-      width: 60%;
-      padding: 30px;
-    }
-  }
+}
+
+/* Styles for medium screens (768px to 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+}
+
+/* Styles for large screens (992px and above) */
+@media (min-width: 992px) {
+}
