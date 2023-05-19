@@ -174,18 +174,7 @@ function Room() {
     // eslint-disable-next-line
   }, [room]);
 
-  let gridCols = "";
-  const numUsers = peers.length;
-  if (numUsers === 1) {
-    gridCols = "grid-cols-2";
-  } else if (numUsers > 1 && numUsers <= 4) {
-    gridCols = "grid-cols-3";
-  } else if (numUsers > 4 && numUsers <= 9) {
-    gridCols = "grid-cols-4";
-  } else if (numUsers > 9) {
-    gridCols = "grid-cols-5";
-  }
-
+  
   // console.log(peers);
 
   const handleClose = () => setModal(false);
@@ -552,7 +541,7 @@ function Room() {
               <div className="videocontainer">
                 <div
                   className={`video-box width-peer${
-                    peers.length > 8 ? "" : peers.length
+                    peers.length > 10 ? "" : peers.length
                   }`}
                 >
                   {userVideoAudio["localUser"].video ? null : (

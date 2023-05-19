@@ -11,9 +11,27 @@ Landscape orientation: 992px - 1199px
 Desktops:
 
 Standard desktop screens: 1200px and above */
-
-/* Styles for small screens (up to 767px) */
-@media (max-width: 768px) {
+@media (min-width: 2560px) {
+  .videoContainer{
+    height:95vh;
+    margin-top:2vh
+  }
+  .one-video{
+    padding-bottom: 3vh; 
+  }
+  .videocontainer{
+    height: 93vh;
+    margin-top:1vh
+  }
+}
+@media (max-width: 1024px) {
+  .one-video{
+    padding-bottom: 9vh; 
+  }
+  .videocontainer{
+    height: 95vh;
+    margin-top:1vh
+  }
 }
 @media (max-width: 320px) {
   .videoContainer {
