@@ -206,34 +206,34 @@ function Room() {
     setRoom(true);
     // socket.emit('BE-check-user', { roomId, userName:username });
     // console.log(username)
-    // fetch("http://localhost:/users", {
-    //   method: "POST",
-    //   mode: "cors",
-    //   cache: "no-cache",
-    //   credentials: "same-origin",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   redirect: "follow",
-    //   referrerPolicy: "no-referrer",
-    //   body: JSON.stringify({
-    //     name: username,
-    //   }),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     sessionStorage.setItem("user", username);
-    //     // sessionStorage.setItem("path", path);
-    //     // console.log(data);
-    //     // navigate(`/${path}`);
-    //     // props.history.push(`/${path}`);
-    //     // window.location.replace(meetingURL);
-    //     setModal(false);
-    //     setRoom(true);
+    fetch("http://localhost:8000/users", {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
+      body: JSON.stringify({
+        name: username,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        sessionStorage.setItem("user", username);
+        // sessionStorage.setItem("path", path);
+        // console.log(data);
+        // navigate(`/${path}`);
+        // props.history.push(`/${path}`);
+        // window.location.replace(meetingURL);
+        setModal(false);
+        setRoom(true);
 
-    //     // props.onClose();
-    //   })
-    //   .catch((error) => console.error(error));
+        // props.onClose();
+      })
+      .catch((error) => console.error(error));
     e.preventDefault();
   };
 

@@ -1,47 +1,100 @@
 import React from "react";
-import { Col, Row } from "react-bootstrap";
-import { PieChart } from "react-minimal-pie-chart";
+import { styled } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
 import "./analyties.css";
-import Logo from "../../assests/Logo.png";
 import DatatablePage from "./DatatablePage";
+import { Chart } from "react-google-charts";
+import Header from "../Header/Header";
+import Bottombar1 from "../Bottombar/Bottombar1";
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+}));
+
+const data = [
+  ["Emotions", "percentage"],
+  ["Happy", 44],
+  ["Average", 33],
+  ["Neutral", 26],
+  ["Bad", 22],
+];
+
+const options = {
+  sliceVisibilityThreshold: 0, // 20%
+  legend: {
+    position: "none",
+    alignment: "center",
+    textStyle: {
+      // fontSize:14,
+      // bold: true,
+      fontFamily: "Poppins",
+    },
+    maxLines: 2,
+  },
+
+  colors: ["#CD298E", "#187DF1", "#4153DE", "#FFAF43"],
+};
 
 function Analyties() {
-  const dataMock = [
-    { title: "One", value: 10, color: "#E38627" },
-    { title: "Two", value: 15, color: "#C13C37" },
-    { title: "Three", value: 20, color: "#6A2135" },
-  ];
-
-  const defaultLabelStyle = {
-    fontSize: "5px",
-    fontFamily: "sans-serif",
-  };
   return (
-    <div className="container">
-      <Row className="analyties-header mt-3">
-        <Col className="logo-container">
-          <img className="sgvp-logo" src={Logo} alt="d"></img>
-        </Col>
-        <Col className="mt-3">
-          <div className="analyties-text">Team Meeting</div>
-        </Col>
-      </Row>
-      <Row className="analyties-content mt-3" >
-        <Col className="col-md-4 chart-container">
-          <div className="pie-chart">
-            <PieChart
-              data={dataMock}
-              label={({ dataEntry }) => Math.round(dataEntry.percentage) + "%"}
-              labelStyle={defaultLabelStyle}
-            />
-          </div>
-        </Col>
-        <Col className="col-md-8 list-container">
-          <div className="analyties-table"><DatatablePage responsive/></div>
-        
-        </Col>
-      </Row>
-    </div>
+    <>
+      <div>
+        <div className="parent">
+          <Header />
+          <Box sx={{ flexGrow: 1 }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={4}>
+                <Item className="left">
+                  <Typography className="call">Call Status</Typography>
+                  <div className="buttons">
+                    <div className="blue-button">Pie Chart</div>
+                    <div className="grey-button">Bar Chart</div>
+                  </div>
+                  <div className="pie-chart">
+                    <Chart
+                      chartType="PieChart"
+                      data={data}
+                      options={options}
+                      width={"100%"}
+                      height={"100%"}
+                      // legend
+                    />
+                    <div>
+                      <div className="legend">
+                        <div className="first-div">
+                          <ul>
+                            <li className="first">Happy</li>
+                            <li className="second">Average</li>
+                          </ul>
+                        </div>
+                        <div className="second-div">
+                          <ul>
+                            <li className="third">Neutral</li>
+                            <li className="fourth">Bad</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Item>
+              </Grid>
+              <Grid item xs={12} md={8}>
+                <Item className="right">
+                  <DatatablePage />
+                </Item>
+              </Grid>
+            </Grid>
+          </Box>
+        </div>
+        <Bottombar1 />
+      </div>
+    </>
   );
 }
 

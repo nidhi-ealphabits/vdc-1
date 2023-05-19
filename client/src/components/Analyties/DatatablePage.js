@@ -1,513 +1,531 @@
 import React from 'react';
 import { MDBDataTable } from 'mdbreact';
+import './table.css'
+// import { toBeRequired } from '@testing-library/jest-dom/dist/matchers';
 
 const DatatablePage = () => {
   const data = {
     columns: [
       {
-        label: 'Name',
+        label: 'No',
         field: 'name',
-        sort: 'asc',
-        width: 150
+        noSort: true // disable sorting for this column
+        
       },
       {
-        label: 'Position',
+        label: 'Student Name',
         field: 'position',
-        sort: 'asc',
-        width: 270
+        noSort: true // disable sorting for this column
+
       },
       {
-        label: 'Office',
+        label: 'Happy',
         field: 'office',
-        sort: 'asc',
-        width: 200
+        noSort: true // disable sorting for this column
+
       },
       {
-        label: 'Age',
+        label: 'Neutral',
         field: 'age',
-        sort: 'asc',
-        width: 100
+        noSort: true // disable sorting for this column
+
       },
       {
-        label: 'Start date',
+        label: 'Average',
         field: 'date',
-        sort: 'asc',
-        width: 150
+        noSort: true // disable sorting for this column
+
       },
       {
-        label: 'Salary',
+        label: 'Bad',
         field: 'salary',
-        sort: 'asc',
-        width: 100
+        noSort: true // disable sorting for this column
+
       }
     ],
     rows: [
       {
-        name: 'Tiger Nixon',
-        position: 'System Architect',
-        office: 'Edinburgh',
-        age: '61',
-        date: '2011/04/25',
-        salary: '$320'
+        name: '1',
+        position: 'Palash Siyal',
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Garrett Winters',
-        position: 'Accountant',
-        office: 'Tokyo',
-        age: '63',
-        date: '2011/07/25',
-        salary: '$170'
+        name: '2',
+        position: 'Nidhi Patel',
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Ashton Cox',
-        position: 'Junior Technical Author',
-        office: 'San Francisco',
-        age: '66',
-        date: '2009/01/12',
-        salary: '$86'
+        name: '3',
+        position: 'Mahendra Rajput',
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Cedric Kelly',
-        position: 'Senior Javascript Developer',
-        office: 'Edinburgh',
-        age: '22',
-        date: '2012/03/29',
-        salary: '$433'
+        name: '4',
+        position: 'Aneri Panchal',
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Airi Satou',
-        position: 'Accountant',
-        office: 'Tokyo',
-        age: '33',
-        date: '2008/11/28',
-        salary: '$162'
+        name: '5',
+        position: 'Avinash Kumar',
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Brielle Williamson',
-        position: 'Integration Specialist',
-        office: 'New York',
-        age: '61',
-        date: '2012/12/02',
-        salary: '$372'
+        name: '6',
+        position: 'Abhishek Majhi',
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Herrod Chandler',
-        position: 'Sales Assistant',
-        office: 'San Francisco',
-        age: '59',
-        date: '2012/08/06',
-        salary: '$137'
+        name: '7',
+        position: 'Harsh Chauhan',
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Rhona Davidson',
-        position: 'Integration Specialist',
-        office: 'Tokyo',
-        age: '55',
-        date: '2010/10/14',
-        salary: '$327'
+        name: '8',
+        position: 'Dilip Joshi',
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Colleen Hurst',
-        position: 'Javascript Developer',
-        office: 'San Francisco',
-        age: '39',
-        date: '2009/09/15',
-        salary: '$205'
+        name: '9',
+        position: 'Virat Kohli',
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Sonya Frost',
-        position: 'Software Engineer',
-        office: 'Edinburgh',
-        age: '23',
-        date: '2008/12/13',
-        salary: '$103'
+        name: '10',
+        position: 'Yuvraj Singh',
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Jena Gaines',
-        position: 'Office Manager',
-        office: 'London',
-        age: '30',
-        date: '2008/12/19',
-        salary: '$90'
+        name: '11',
+        position: 'Rahul Dravid',
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Quinn Flynn',
-        position: 'Support Lead',
-        office: 'Edinburgh',
-        age: '22',
-        date: '2013/03/03',
-        salary: '$342'
+        name: '12',
+        position: 'Sachin Tendulkar',
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Charde Marshall',
-        position: 'Regional Director',
-        office: 'San Francisco',
-        age: '36',
-        date: '2008/10/16',
-        salary: '$470'
+        name: '13',
+        position: 'Viv Richards',
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Haley Kennedy',
-        position: 'Senior Marketing Designer',
-        office: 'London',
-        age: '43',
-        date: '2012/12/18',
-        salary: '$313'
+        name: '14',
+        position: 'Ricky Ponting',
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Tatyana Fitzpatrick',
-        position: 'Regional Director',
-        office: 'London',
-        age: '19',
-        date: '2010/03/17',
-        salary: '$385'
+        name: '15',
+        position: 'Brain Lara',
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Michael Silva',
+        name: '1',
         position: 'Marketing Designer',
-        office: 'London',
-        age: '66',
-        date: '2012/11/27',
-        salary: '$198'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Paul Byrd',
+        name: '1',
         position: 'Chief Financial Officer (CFO)',
-        office: 'New York',
-        age: '64',
-        date: '2010/06/09',
-        salary: '$725'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Gloria Little',
+        name: '1',
         position: 'Systems Administrator',
-        office: 'New York',
-        age: '59',
-        date: '2009/04/10',
-        salary: '$237'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Bradley Greer',
+        name: '1',
         position: 'Software Engineer',
-        office: 'London',
-        age: '41',
-        date: '2012/10/13',
-        salary: '$132'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Dai Rios',
+        name: '1',
         position: 'Personnel Lead',
-        office: 'Edinburgh',
-        age: '35',
-        date: '2012/09/26',
-        salary: '$217'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Jenette Caldwell',
+        name: '1',
         position: 'Development Lead',
-        office: 'New York',
-        age: '30',
-        date: '2011/09/03',
-        salary: '$345'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Yuri Berry',
+        name: '1',
         position: 'Chief Marketing Officer (CMO)',
-        office: 'New York',
-        age: '40',
-        date: '2009/06/25',
-        salary: '$675'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Caesar Vance',
+        name: '1',
         position: 'Pre-Sales Support',
-        office: 'New York',
-        age: '21',
-        date: '2011/12/12',
-        salary: '$106'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Doris Wilder',
+        name: '1',
         position: 'Sales Assistant',
-        office: 'Sidney',
-        age: '23',
-        date: '2010/09/20',
-        salary: '$85'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Angelica Ramos',
+        name: '1',
         position: 'Chief Executive Officer (CEO)',
-        office: 'London',
-        age: '47',
-        date: '2009/10/09',
-        salary: '$1'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Gavin Joyce',
+        name: '1',
         position: 'Developer',
-        office: 'Edinburgh',
-        age: '42',
-        date: '2010/12/22',
-        salary: '$92'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Jennifer Chang',
+        name: '1',
         position: 'Regional Director',
-        office: 'Singapore',
-        age: '28',
-        date: '2010/11/14',
-        salary: '$357'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Brenden Wagner',
+        name: '1',
         position: 'Software Engineer',
-        office: 'San Francisco',
-        age: '28',
-        date: '2011/06/07',
-        salary: '$206'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Fiona Green',
+        name: '1',
         position: 'Chief Operating Officer (COO)',
-        office: 'San Francisco',
-        age: '48',
-        date: '2010/03/11',
-        salary: '$850'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Shou Itou',
+        name: '1',
         position: 'Regional Marketing',
-        office: 'Tokyo',
-        age: '20',
-        date: '2011/08/14',
-        salary: '$163'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Michelle House',
+        name: '1',
         position: 'Integration Specialist',
-        office: 'Sidney',
-        age: '37',
-        date: '2011/06/02',
-        salary: '$95'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Suki Burks',
+        name: '1',
         position: 'Developer',
-        office: 'London',
-        age: '53',
-        date: '2009/10/22',
-        salary: '$114'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Prescott Bartlett',
+        name: '1',
         position: 'Technical Author',
-        office: 'London',
-        age: '27',
-        date: '2011/05/07',
-        salary: '$145'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Gavin Cortez',
+        name: '1',
         position: 'Team Leader',
-        office: 'San Francisco',
-        age: '22',
-        date: '2008/10/26',
-        salary: '$235'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Martena Mccray',
+        name: '1',
         position: 'Post-Sales support',
-        office: 'Edinburgh',
-        age: '46',
-        date: '2011/03/09',
-        salary: '$324'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Unity Butler',
+        name: '1',
         position: 'Marketing Designer',
-        office: 'San Francisco',
-        age: '47',
-        date: '2009/12/09',
-        salary: '$85'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Howard Hatfield',
+        name: '1',
         position: 'Office Manager',
-        office: 'San Francisco',
-        age: '51',
-        date: '2008/12/16',
-        salary: '$164'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Hope Fuentes',
+        name: '1',
         position: 'Secretary',
-        office: 'San Francisco',
-        age: '41',
-        date: '2010/02/12',
-        salary: '$109'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Vivian Harrell',
+        name: '1',
         position: 'Financial Controller',
-        office: 'San Francisco',
-        age: '62',
-        date: '2009/02/14',
-        salary: '$452'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Timothy Mooney',
+        name: '1',
         position: 'Office Manager',
-        office: 'London',
-        age: '37',
-        date: '2008/12/11',
-        salary: '$136'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Jackson Bradshaw',
+        name: '1',
         position: 'Director',
-        office: 'New York',
-        age: '65',
-        date: '2008/09/26',
-        salary: '$645'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Olivia Liang',
+        name: '1',
         position: 'Support Engineer',
-        office: 'Singapore',
-        age: '64',
-        date: '2011/02/03',
-        salary: '$234'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Bruno Nash',
+        name: '1',
         position: 'Software Engineer',
-        office: 'London',
-        age: '38',
-        date: '2011/05/03',
-        salary: '$163'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Sakura Yamamoto',
+        name: '1',
         position: 'Support Engineer',
-        office: 'Tokyo',
-        age: '37',
-        date: '2009/08/19',
-        salary: '$139'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Thor Walton',
+        name: '1',
         position: 'Developer',
-        office: 'New York',
-        age: '61',
-        date: '2013/08/11',
-        salary: '$98'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Finn Camacho',
+        name: '1',
         position: 'Support Engineer',
-        office: 'San Francisco',
-        age: '47',
-        date: '2009/07/07',
-        salary: '$87'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Serge Baldwin',
+        name: '1',
         position: 'Data Coordinator',
-        office: 'Singapore',
-        age: '64',
-        date: '2012/04/09',
-        salary: '$138'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Zenaida Frank',
+        name: '1',
         position: 'Software Engineer',
-        office: 'New York',
-        age: '63',
-        date: '2010/01/04',
-        salary: '$125'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Zorita Serrano',
+        name: '1',
         position: 'Software Engineer',
-        office: 'San Francisco',
-        age: '56',
-        date: '2012/06/01',
-        salary: '$115'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Jennifer Acosta',
+        name: '1',
         position: 'Junior Javascript Developer',
-        office: 'Edinburgh',
-        age: '43',
-        date: '2013/02/01',
-        salary: '$75'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Cara Stevens',
+        name: '1',
         position: 'Sales Assistant',
-        office: 'New York',
-        age: '46',
-        date: '2011/12/06',
-        salary: '$145'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Hermione Butler',
+        name: '1',
         position: 'Regional Director',
-        office: 'London',
-        age: '47',
-        date: '2011/03/21',
-        salary: '$356'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Lael Greer',
+        name: '1',
         position: 'Systems Administrator',
-        office: 'London',
-        age: '21',
-        date: '2009/02/27',
-        salary: '$103'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Jonas Alexander',
+        name: '1',
         position: 'Developer',
-        office: 'San Francisco',
-        age: '30',
-        date: '2010/07/14',
-        salary: '$86'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Shad Decker',
+        name: '1',
         position: 'Regional Director',
-        office: 'Edinburgh',
-        age: '51',
-        date: '2008/11/13',
-        salary: '$183'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Michael Bruce',
+        name: '1',
         position: 'Javascript Developer',
-        office: 'Singapore',
-        age: '29',
-        date: '2011/06/27',
-        salary: '$183'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       },
       {
-        name: 'Donna Snider',
+        name: '1',
         position: 'Customer Support',
-        office: 'New York',
-        age: '27',
-        date: '2011/01/25',
-        salary: '$112'
+        office: '50%',
+        age: '30%',
+        date: '15%',
+        salary: '5%'
       }
     ]
   };
+  
+  // const options = {
+  //   searchLabel: 'Search', // change the search placeholder from right to left
+  // };
 
   return (
+    <>
+    <div className='mdb-table hide-sort-icons'> 
     <MDBDataTable
-    //   striped
-    //   bordered
-    //   small
+      noBottomColumns
+      searching={true}
       data={data}
+      sortable={false}
+      responsive={true}
+      entriesLabel="Show entries"
+  autoWidth={false}
+  entries={15}
+      // autoWidth={true}
+      // fixed={true}
+      // scrollY={true}
+      // scrollX={true}
     />
+    </div>
+    </>
   );
 }
 
