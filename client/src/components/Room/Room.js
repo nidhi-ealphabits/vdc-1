@@ -14,6 +14,7 @@ import "./responsive.css";
 import Details from "../Main/Details";
 import { Modal, Button, FloatingLabel, Form } from "react-bootstrap";
 import Chat from "../Chat/Chat";
+import * as faceapi from "face-api.js";
 
 function Room() {
   const [username, setUserName] = useState("");
@@ -43,9 +44,14 @@ function Room() {
   }, []);
 
   useEffect(() => {
+    userVideoRef && loadModels();
+  });
+
+  useEffect(() => {
     // console.log(roomId)
     if (room) {
       setModal(false);
+  
       // Get Video Devices
       navigator.mediaDevices
         .enumerateDevices()
@@ -174,6 +180,37 @@ function Room() {
     // eslint-disable-next-line
   }, [room]);
 
+  const loadModels = () => {
+    Promise.all([
+      faceapi.nets.tinyFaceDetector.loadFromUri("/models"),
+      faceapi.nets.faceLandmark68Net.loadFromUri("/models"),
+      faceapi.nets.faceExpressionNet.loadFromUri("/models"),
+    ]).then(() => {
+      faceDetection();
+    });
+  };
+
+  const faceDetection = async () => {
+    setInterval(async () => {
+      const detections = await faceapi
+        .detectAllFaces(
+          userVideoRef.current,
+          new faceapi.TinyFaceDetectorOptions()
+        )
+        .withFaceLandmarks()
+        .withFaceExpressions();
+
+      if (detections[0]?.expressions) {
+        const emotions = detections[0].expressions;
+        const highestEmotion1 = Object.entries(emotions).reduce(
+          (prev, curr) => {
+            return prev[1] > curr[1] ? prev : curr;
+          }
+        )[0];
+        console.log("emotion is : ",highestEmotion1);
+      }
+    }, 3000);
+  };
   
   // console.log(peers);
 
@@ -218,6 +255,7 @@ function Room() {
       referrerPolicy: "no-referrer",
       body: JSON.stringify({
         name: username,
+        session:roomId
       }),
     })
       .then((response) => response.json())

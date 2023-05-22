@@ -10,12 +10,15 @@ const PORT = process.env.PORT || 8000;
 
 let socketList = {};
 // database connection
-const User = require("./models/user");
+// const User = require("./models/schema");
+const { Collection1, Collection2 } = require('./models/schema.js');
 const mongoose = require("mongoose");
 mongoose
   .connect("mongodb://127.0.0.1:27017/webrtc")
-  .then(() => console.log("Connected Successfully"))
+  .then(() => console.log("Database Connected Successfully"))
   .catch((error) => console.log(error));
+
+
 
 app.use(express.static(path.join(__dirname, "../client/build")));
 app.use(express.json());
@@ -40,15 +43,33 @@ app.get("/ping", (req, res) => {
 });
 
 app.post("/users", async (req, res) => {
-  const user = new User({
-    name: req.body.name,
-  });
   try {
-    const a1 = await user.save();
-    res.json(a1);
-  } catch (err) {
-    console.log(err);
+
+    // Retrieve values from input fields
+    const name = req.body.name;
+    const session = req.body.session;
+  
+
+    // Insert values into the first collection
+    await Collection1.create({ name });
+
+    // Insert values into the second collection
+    await Collection2.create({ session });
+
+    res.send('Values added to both collections successfully.');
+  } catch (error) {
+    console.error('Error adding values to collections:', error);
+    res.status(500).send('Error adding values to collections');
   }
+  // const user = new User({
+  //   name: req.body.name,
+  // });
+  // try {
+  //   const a1 = await user.save();
+  //   res.json(a1);
+  // } catch (err) {
+  //   console.log(err);
+  // }
 });
 
 // Socket
@@ -60,7 +81,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("BE-check-user", ({ roomId, userName }) => {
-    console.log("BE-CHECK_USER", roomId, userName);
+    // console.log("BE-CHECK_USER", roomId, userName);
     let error = false;
 
     io.sockets.in(roomId).clients((err, clients) => {
@@ -77,7 +98,7 @@ io.on("connection", (socket) => {
    * Join Room
    */
   socket.on("BE-join-room", ({ roomId, userName }) => {
-    console.log("BE-JOIN-ROOM", roomId, userName);
+    // console.log("BE-JOIN-ROOM", roomId, userName);
     // Socket Join RoomName
     socket.join(roomId);
     socketList[socket.id] = { userName, video: true, audio: true };
@@ -100,7 +121,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("BE-call-user", ({ userToCall, from, signal }) => {
-    console.log("BE-CALL-USER", userToCall);
+    // console.log("BE-CALL-USER", userToCall);
 
     io.to(userToCall).emit("FE-receive-call", {
       signal,
@@ -110,7 +131,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("BE-accept-call", ({ signal, to }) => {
-    console.log("BE-ACCEPT-CALL");
+    // console.log("BE-ACCEPT-CALL");
 
     io.to(to).emit("FE-call-accepted", {
       signal,
@@ -119,7 +140,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("BE-send-message", ({ roomId, msg, sender }) => {
-    console.log("send message", roomId, "+", msg, "+", sender);
+    // console.log("send message", roomId, "+", msg, "+", sender);
     io.sockets.in(roomId).emit("FE-receive-message", { msg, sender });
   });
 
