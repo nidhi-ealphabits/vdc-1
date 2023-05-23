@@ -45,9 +45,7 @@ function Room() {
 
   useEffect(() => {
     userVideoRef && loadModels();
-    return () => {
-      socket.disconnect();
-    };
+  
   });
 
   useEffect(() => {
@@ -225,7 +223,7 @@ function Room() {
 
         // Print the updated counts
         console.log("Emotion counts: ", emotionCounts);
-      
+        }
     }, 3000);
   };
 
