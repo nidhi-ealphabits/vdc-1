@@ -20,30 +20,29 @@ const emotionSchema = new mongoose.Schema({
     ref: 'User' // Reference to the User model
   },
   Happy: {
-    type: String,
+    type: Number,
     required: true
   },
   sad:{
-    type: String,
+    type: Number,
     required: true
   },
   Anger:{
-    type: String,
+    type: Number,
     required: true
   },
   Surprise:{
-    type: String,
+    type: Number,
     required: true
   },
   Fear:{
-    type: String,
+    type: Number,
     required: true
   },
   Neural:{
-    type: String,
+    type: Number,
     required: true
   }
-  // other emotion fields...
 });
 
 

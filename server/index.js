@@ -56,7 +56,7 @@ app.post("/users", async (req, res) => {
     // Insert values into the second collection
     await Collection2.create({ session });
 
-    res.send('Values added to both collections successfully.');
+    // res.send('Values added to both collections successfully.');
   } catch (error) {
     console.error('Error adding values to collections:', error);
     res.status(500).send('Error adding values to collections');

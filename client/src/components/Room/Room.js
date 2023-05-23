@@ -45,13 +45,16 @@ function Room() {
 
   useEffect(() => {
     userVideoRef && loadModels();
+    return () => {
+      socket.disconnect();
+    };
   });
 
   useEffect(() => {
     // console.log(roomId)
     if (room) {
       setModal(false);
-  
+
       // Get Video Devices
       navigator.mediaDevices
         .enumerateDevices()
@@ -190,7 +193,16 @@ function Room() {
     });
   };
 
+  const emotionCounts={
+    happy: 0,
+    sad: 0,
+    anger: 0,
+    surprised: 0,
+    neutral: 0,
+    fear: 0,
+  }
   const faceDetection = async () => {
+   
     setInterval(async () => {
       const detections = await faceapi
         .detectAllFaces(
@@ -207,11 +219,16 @@ function Room() {
             return prev[1] > curr[1] ? prev : curr;
           }
         )[0];
-        console.log("emotion is : ",highestEmotion1);
-      }
+        console.log("emotion is : ", highestEmotion1);
+        // Increment the count for the detected emotion
+        emotionCounts[highestEmotion1]++;
+
+        // Print the updated counts
+        console.log("Emotion counts: ", emotionCounts);
+      
     }, 3000);
   };
-  
+
   // console.log(peers);
 
   const handleClose = () => setModal(false);
@@ -255,7 +272,7 @@ function Room() {
       referrerPolicy: "no-referrer",
       body: JSON.stringify({
         name: username,
-        session:roomId
+        session: roomId,
       }),
     })
       .then((response) => response.json())
@@ -268,7 +285,6 @@ function Room() {
         // window.location.replace(meetingURL);
         setModal(false);
         setRoom(true);
-
         // props.onClose();
       })
       .catch((error) => console.error(error));
@@ -553,7 +569,7 @@ function Room() {
       )}
       {room && (
         <>
-         }
+          }
           <Header />
           <div style={{ zIndex: 1 }}>
             {/* <CardGrid/> */}
@@ -591,24 +607,24 @@ function Room() {
                     //  className="video-card"
                     ref={userVideoRef}
                     muted
-                    playsInline 
+                    playsInline
                     autoPlay
                   ></video>
                 </div>
                 {peers.map((peer, index, arr) => (
-                    //  createUserVideo(peer, index, arr)
-                    <div
-                      className={`video-box width-peer${
-                        peers.length > 8 ? "" : peers.length
-                      }`}
-                      key={index}
-                    >
-                      {writeUserName(peer.userName)}
-                      {/* <i className="FaIcon fas fa-expand"></i> */}
-                      {/* <video className="MyVideo" muted autoPlay playsInline></video> */}
-                      <VideoCard key={index} peer={peer} number={arr.length} />
-                    </div>
-                  ))}
+                  //  createUserVideo(peer, index, arr)
+                  <div
+                    className={`video-box width-peer${
+                      peers.length > 8 ? "" : peers.length
+                    }`}
+                    key={index}
+                  >
+                    {writeUserName(peer.userName)}
+                    {/* <i className="FaIcon fas fa-expand"></i> */}
+                    {/* <video className="MyVideo" muted autoPlay playsInline></video> */}
+                    <VideoCard key={index} peer={peer} number={arr.length} />
+                  </div>
+                ))}
               </div>
             )}
 
