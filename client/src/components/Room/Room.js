@@ -15,6 +15,7 @@ import Details from "../Main/Details";
 import { Modal, Button, FloatingLabel, Form } from "react-bootstrap";
 import Chat from "../Chat/Chat";
 import * as faceapi from "face-api.js";
+import axios from "axios";
 
 function Room() {
   const [username, setUserName] = useState("");
@@ -45,7 +46,6 @@ function Room() {
 
   useEffect(() => {
     userVideoRef && loadModels();
-  
   });
 
   useEffect(() => {
@@ -191,16 +191,16 @@ function Room() {
     });
   };
 
-  const emotionCounts={
+  let [emotionCounts, setEmotionCounts] = useState({
     happy: 0,
     sad: 0,
     anger: 0,
     surprised: 0,
     neutral: 0,
     fear: 0,
-  }
+  });
+
   const faceDetection = async () => {
-   
     setInterval(async () => {
       const detections = await faceapi
         .detectAllFaces(
@@ -217,17 +217,54 @@ function Room() {
             return prev[1] > curr[1] ? prev : curr;
           }
         )[0];
-        console.log("emotion is : ", highestEmotion1);
-        // Increment the count for the detected emotion
-        emotionCounts[highestEmotion1]++;
 
+        console.log("emotion is : ", highestEmotion1);
+
+        if (highestEmotion1 === "neutral") {
+          emotionCounts.neutral = emotionCounts.neutral + 1;
+        } else if (highestEmotion1 === "happy") {
+          emotionCounts.happy = emotionCounts.happy + 1;
+        } else if (highestEmotion1 === "sad") {
+          emotionCounts.sad = emotionCounts.sad + 1;
+        } else if (highestEmotion1 === "angry") {
+          emotionCounts.anger = emotionCounts.anger + 1;
+        } else if (highestEmotion1 === "surprised") {
+          emotionCounts.surprised = emotionCounts.surprised + 1;
+        } else if (highestEmotion1 === "fearful") {
+          emotionCounts.fear = emotionCounts.fear + 1;
+        } else {
+          console.log("unknown emotion", highestEmotion1);
+        }
         // Print the updated counts
         console.log("Emotion counts: ", emotionCounts);
-        }
+
+        // Create a function to send the emotion data to the server
+        const saveEmotionData = async (emotionData) => {
+          try {
+            await axios.post("http://localhost:8000/emotions", JSON.stringify(emotionData));
+            console.log("Emotion data saved successfully");
+          } catch (error) {
+            console.error("Error saving emotion data:", error);
+          }
+        };
+
+        // Create a new Emotion document
+        const emotionData = {
+          Happy: emotionCounts.happy,
+          Sad: emotionCounts.sad,
+          Anger: emotionCounts.anger,
+          Surprise: emotionCounts.surprised,
+          Fear: emotionCounts.fear,
+          Neutral: emotionCounts.neutral,
+        };
+
+        saveEmotionData(emotionData);
+        console.log("Emotion Data: ", emotionData);
+
+
+      }
     }, 3000);
   };
-
-  // console.log(peers);
 
   const handleClose = () => setModal(false);
 
@@ -285,7 +322,7 @@ function Room() {
         setRoom(true);
         // props.onClose();
       })
-      .catch((error) => console.error(error));
+      .catch((err) => console.error(err));
     e.preventDefault();
   };
 

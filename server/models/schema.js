@@ -15,41 +15,40 @@ const sessionSchema = new mongoose.Schema({
 });
 
 const emotionSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User' // Reference to the User model
-  },
   Happy: {
     type: Number,
-    required: true
+    required: true,
   },
-  sad:{
+  Sad: {
     type: Number,
-    required: true
+    required: true,
   },
-  Anger:{
+  Anger: {
     type: Number,
-    required: true
+    required: true,
   },
-  Surprise:{
+  Surprise: {
     type: Number,
-    required: true
+    required: true,
   },
-  Fear:{
+  Fear: {
     type: Number,
-    required: true
+    required: true,
   },
-  Neural:{
+  Neutral: {
     type: Number,
-    required: true
-  }
+    required: true,
+  },
 });
 
 
 const Collection1 = mongoose.model("User", userSchema);
 const Collection2=mongoose.model("Session",sessionSchema);
+const Emotion=mongoose.model("Emotion",emotionSchema);
+
 
 module.exports = {
   Collection1,
   Collection2,
+  Emotion
 };

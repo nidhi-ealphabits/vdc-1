@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 8000;
 let socketList = {};
 // database connection
 // const User = require("./models/schema");
-const { Collection1, Collection2 } = require('./models/schema.js');
+const { Collection1, Collection2, Emotion } = require('./models/schema.js');
 const mongoose = require("mongoose");
 mongoose
   .connect("mongodb://127.0.0.1:27017/webrtc")
@@ -44,12 +44,9 @@ app.get("/ping", (req, res) => {
 
 app.post("/users", async (req, res) => {
   try {
-
     // Retrieve values from input fields
     const name = req.body.name;
     const session = req.body.session;
-  
-
     // Insert values into the first collection
     await Collection1.create({ name });
 
@@ -71,6 +68,18 @@ app.post("/users", async (req, res) => {
   //   console.log(err);
   // }
 });
+
+// Create an endpoint to handle the creation of emotion data
+app.post('/emotions', async (req, res) => {
+  try {
+    const newEmotion = new Emotion(req.body);
+    await newEmotion.save();
+    res.status(201).json(newEmotion);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 
 // Socket
 io.on("connection", (socket) => {
