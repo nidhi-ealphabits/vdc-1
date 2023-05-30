@@ -192,12 +192,12 @@ function Room() {
   };
 
   let [emotionCounts, setEmotionCounts] = useState({
-    happy: 0,
-    sad: 0,
-    anger: 0,
-    surprised: 0,
-    neutral: 0,
-    fear: 0,
+    Happy: 0,
+    Sad: 0,
+    Anger: 0,
+    Surprise: 0,
+    Fear: 0,
+    Neutral: 0,
   });
 
   const faceDetection = async () => {
@@ -220,48 +220,67 @@ function Room() {
 
         console.log("emotion is : ", highestEmotion1);
 
-        if (highestEmotion1 === "neutral") {
-          emotionCounts.neutral = emotionCounts.neutral + 1;
-        } else if (highestEmotion1 === "happy") {
-          emotionCounts.happy = emotionCounts.happy + 1;
+
+        if (highestEmotion1 === "happy") {
+          emotionCounts.Happy = emotionCounts.Happy + 1;
         } else if (highestEmotion1 === "sad") {
-          emotionCounts.sad = emotionCounts.sad + 1;
+          emotionCounts.Sad = emotionCounts.Sad + 1;
         } else if (highestEmotion1 === "angry") {
-          emotionCounts.anger = emotionCounts.anger + 1;
+          emotionCounts.Anger = emotionCounts.Anger + 1;
         } else if (highestEmotion1 === "surprised") {
-          emotionCounts.surprised = emotionCounts.surprised + 1;
+          emotionCounts.Surprise = emotionCounts.Surprise + 1;
         } else if (highestEmotion1 === "fearful") {
-          emotionCounts.fear = emotionCounts.fear + 1;
+          emotionCounts.Fear = emotionCounts.Fear + 1;
+        } else if (highestEmotion1 === "neutral") {
+          emotionCounts.Neutral = emotionCounts.Neutral + 1;
         } else {
           console.log("unknown emotion", highestEmotion1);
         }
+
         // Print the updated counts
         console.log("Emotion counts: ", emotionCounts);
 
         // Create a function to send the emotion data to the server
-        const saveEmotionData = async (emotionData) => {
-          try {
-            await axios.post("http://localhost:8000/emotions", JSON.stringify(emotionData));
-            console.log("Emotion data saved successfully");
-          } catch (error) {
-            console.error("Error saving emotion data:", error);
-          }
-        };
+        // const saveEmotionData = async (emotionData) => {
+        try {
+          // await axios.post("http://localhost:8000/emotions", JSON.stringify(emotionCounts));
+          fetch("http://localhost:8000/emotions", {
+            method: "POST",
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            redirect: "follow",
+            referrerPolicy: "no-referrer",
+            body: JSON.stringify({
+              Happy: emotionCounts.Happy,
+              Sad: emotionCounts.Sad,
+              Anger: emotionCounts.Anger,
+              Surprise: emotionCounts.Surprise,
+              Fear: emotionCounts.Fear,
+              Neutral: emotionCounts.Neutral,
+            }),
+          }).then((response) => response.json());
+          console.log("Emotion data saved successfully");
+        } catch (error) {
+          console.error("Error saving emotion data:", error);
+        }
+        // };
 
         // Create a new Emotion document
-        const emotionData = {
-          Happy: emotionCounts.happy,
-          Sad: emotionCounts.sad,
-          Anger: emotionCounts.anger,
-          Surprise: emotionCounts.surprised,
-          Fear: emotionCounts.fear,
-          Neutral: emotionCounts.neutral,
-        };
+        // const emotionData = {
+        //   Happy: emotionCounts.happy,
+        //   Sad: emotionCounts.sad,
+        //   Anger: emotionCounts.anger,
+        //   Surprise: emotionCounts.surprised,
+        //   Fear: emotionCounts.fear,
+        //   Neutral: emotionCounts.neutral,
+        // };
 
-        saveEmotionData(emotionData);
-        console.log("Emotion Data: ", emotionData);
-
-
+        // saveEmotionData(emotionData);
+        // console.log("Emotion Data: ", emotionData);
       }
     }, 3000);
   };
@@ -312,9 +331,10 @@ function Room() {
     })
       .then((response) => response.json())
       .then((data) => {
+        const userId = data._id; 
         sessionStorage.setItem("user", username);
         // sessionStorage.setItem("path", path);
-        // console.log(data);
+        console.log(data);
         // navigate(`/${path}`);
         // props.history.push(`/${path}`);
         // window.location.replace(meetingURL);

@@ -15,6 +15,10 @@ const sessionSchema = new mongoose.Schema({
 });
 
 const emotionSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  },
   Happy: {
     type: Number,
     required: true,
