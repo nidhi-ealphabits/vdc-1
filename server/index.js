@@ -11,14 +11,12 @@ const PORT = process.env.PORT || 8000;
 let socketList = {};
 // database connection
 // const User = require("./models/schema");
-const { Collection1, Collection2, Emotion } = require('./models/schema.js');
+const { User, Session, Emotion } = require("./models/schema.js");
 const mongoose = require("mongoose");
 mongoose
   .connect("mongodb://127.0.0.1:27017/webrtc")
   .then(() => console.log("Database Connected Successfully"))
   .catch((error) => console.log(error));
-
-
 
 app.use(express.static(path.join(__dirname, "../client/build")));
 app.use(express.json());
@@ -47,16 +45,34 @@ app.post("/users", async (req, res) => {
     // Retrieve values from input fields
     const name = req.body.name;
     const session = req.body.session;
-    // Insert values into the first collection
-    await Collection1.create({ name });
+    //   // Insert values into the User collection
+    //   const a1= await User.create({ name });
+    //   // Insert values into the Session collection
+    //  const a2= await Session.create({ session });
+    //  a1.session_id.push(a2._id); // Add the session ID to the user's session_id array
+    //   await user.save(); // Save the updated user document
+    // res.send({ userId: a1._id, sessionId: a2._id });
+    const user = await User.create({ name }); // Create a new User document
 
-    // Insert values into the second collection
-    await Collection2.create({ session });
+    let sessionDoc = await Session.findOne({ session }); // Check if a Session document with the same session name exists
 
+    if (!sessionDoc) {
+      // If no matching Session document found, create a new one
+      sessionDoc = new Session({ session }); // Create a new Session document
+      await sessionDoc.save(); // Save the new Session document
+    }
+
+    user.session_id.push(sessionDoc._id); // Add the session ID to the user's session_id array
+    await user.save(); // Save the updated user document
+
+    sessionDoc.user_id.push(user._id); // Add the user ID to the session's user_id array
+    await sessionDoc.save(); // Save the updated session document
+
+    res.send({ userId: user._id, sessionId: sessionDoc._id });
     // res.send('Values added to both collections successfully.');
   } catch (error) {
-    console.error('Error adding values to collections:', error);
-    res.status(500).send('Error adding values to collections');
+    console.error("Error adding values to collections:", error);
+    res.status(500).send("Error adding values to collections");
   }
   // const user = new User({
   //   name: req.body.name,
@@ -70,16 +86,52 @@ app.post("/users", async (req, res) => {
 });
 
 // Create an endpoint to handle the creation of emotion data
-app.post('/emotions', async (req, res) => {
+// app.post('/emotions', async (req, res) => {
+//   console.log(req.body)
+//   try {
+//     const userId = req.body.user_id; // Assuming the user ID is passed in the request body
+//     const emotions = req.body.emotion; // Assuming the emotion data is passed in the request body as an object
+
+//     const newEmotion = new Emotion({
+//       user_id: userId,
+//       emotion: emotions,
+//     });
+
+//     await newEmotion.save();
+
+//     newEmotion.user_id.push(userId);
+//     res.status(201).json(newEmotion);
+//   } catch (error) {
+//     res.status(500).send(error);
+//   }
+// });
+
+app.post("/emotions", async (req, res) => {
   try {
-    const newEmotion = new Emotion(req.body);
-    await newEmotion.save();
-    res.status(201).json(newEmotion);
+    const userId = req.body.user_id; // Assuming the user ID is passed in the request body
+    const emotions = req.body.emotion; // Assuming the emotion data is passed in the request body as an object
+
+    // Check if there is an existing document for the user
+    const existingEmotion = await Emotion.findOne({ user_id: userId });
+
+    if (existingEmotion) {
+      // Update the existing document with the new emotion counts
+      existingEmotion.emotion = emotions;
+      await existingEmotion.save();
+      res.status(200).json(existingEmotion);
+    } else {
+      // Create a new document for the user
+      const newEmotion = new Emotion({
+        user_id: userId,
+        emotion: emotions,
+      });
+      await newEmotion.save();
+      res.status(201).json(newEmotion);
+    }
   } catch (error) {
     res.status(500).send(error);
   }
 });
-
 
 // Socket
 io.on("connection", (socket) => {

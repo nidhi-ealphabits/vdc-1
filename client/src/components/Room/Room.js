@@ -181,114 +181,6 @@ function Room() {
     // eslint-disable-next-line
   }, [room]);
 
-  const loadModels = () => {
-    Promise.all([
-      faceapi.nets.tinyFaceDetector.loadFromUri("/models"),
-      faceapi.nets.faceLandmark68Net.loadFromUri("/models"),
-      faceapi.nets.faceExpressionNet.loadFromUri("/models"),
-    ]).then(() => {
-      faceDetection();
-    });
-  };
-
-  let [emotionCounts, setEmotionCounts] = useState({
-    Happy: 0,
-    Sad: 0,
-    Anger: 0,
-    Surprise: 0,
-    Fear: 0,
-    Neutral: 0,
-  });
-
-  const faceDetection = async () => {
-    setInterval(async () => {
-      const detections = await faceapi
-        .detectAllFaces(
-          userVideoRef.current,
-          new faceapi.TinyFaceDetectorOptions()
-        )
-        .withFaceLandmarks()
-        .withFaceExpressions();
-
-      if (detections[0]?.expressions) {
-        const emotions = detections[0].expressions;
-        const highestEmotion1 = Object.entries(emotions).reduce(
-          (prev, curr) => {
-            return prev[1] > curr[1] ? prev : curr;
-          }
-        )[0];
-
-        console.log("emotion is : ", highestEmotion1);
-
-
-        if (highestEmotion1 === "happy") {
-          emotionCounts.Happy = emotionCounts.Happy + 1;
-        } else if (highestEmotion1 === "sad") {
-          emotionCounts.Sad = emotionCounts.Sad + 1;
-        } else if (highestEmotion1 === "angry") {
-          emotionCounts.Anger = emotionCounts.Anger + 1;
-        } else if (highestEmotion1 === "surprised") {
-          emotionCounts.Surprise = emotionCounts.Surprise + 1;
-        } else if (highestEmotion1 === "fearful") {
-          emotionCounts.Fear = emotionCounts.Fear + 1;
-        } else if (highestEmotion1 === "neutral") {
-          emotionCounts.Neutral = emotionCounts.Neutral + 1;
-        } else {
-          console.log("unknown emotion", highestEmotion1);
-        }
-
-        // Print the updated counts
-        console.log("Emotion counts: ", emotionCounts);
-
-        // Create a function to send the emotion data to the server
-        // const saveEmotionData = async (emotionData) => {
-        try {
-          // await axios.post("http://localhost:8000/emotions", JSON.stringify(emotionCounts));
-          fetch("http://localhost:8000/emotions", {
-            method: "POST",
-            mode: "cors",
-            cache: "no-cache",
-            credentials: "same-origin",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            redirect: "follow",
-            referrerPolicy: "no-referrer",
-            body: JSON.stringify({
-              Happy: emotionCounts.Happy,
-              Sad: emotionCounts.Sad,
-              Anger: emotionCounts.Anger,
-              Surprise: emotionCounts.Surprise,
-              Fear: emotionCounts.Fear,
-              Neutral: emotionCounts.Neutral,
-            }),
-          }).then((response) => response.json());
-          console.log("Emotion data saved successfully");
-        } catch (error) {
-          console.error("Error saving emotion data:", error);
-        }
-        // };
-
-        // Create a new Emotion document
-        // const emotionData = {
-        //   Happy: emotionCounts.happy,
-        //   Sad: emotionCounts.sad,
-        //   Anger: emotionCounts.anger,
-        //   Surprise: emotionCounts.surprised,
-        //   Fear: emotionCounts.fear,
-        //   Neutral: emotionCounts.neutral,
-        // };
-
-        // saveEmotionData(emotionData);
-        // console.log("Emotion Data: ", emotionData);
-      }
-    }, 3000);
-  };
-
-  const handleClose = () => setModal(false);
-
-  const handleShow = () => setModal(true);
-
   const join = (e) => {
     if (username.length <= 0) {
       setError("UserName is Required..!!");
@@ -331,10 +223,12 @@ function Room() {
     })
       .then((response) => response.json())
       .then((data) => {
-        const userId = data._id; 
+        // console.log("data",data)
         sessionStorage.setItem("user", username);
+        sessionStorage.setItem("user_id", data.userId);
+        // sessionStorage.setItem("session_id", data.sessionId);
         // sessionStorage.setItem("path", path);
-        console.log(data);
+        // console.log(data);
         // navigate(`/${path}`);
         // props.history.push(`/${path}`);
         // window.location.replace(meetingURL);
@@ -345,6 +239,92 @@ function Room() {
       .catch((err) => console.error(err));
     e.preventDefault();
   };
+
+  const loadModels = () => {
+    Promise.all([
+      faceapi.nets.tinyFaceDetector.loadFromUri("/models"),
+      faceapi.nets.faceLandmark68Net.loadFromUri("/models"),
+      faceapi.nets.faceExpressionNet.loadFromUri("/models"),
+    ]).then(() => {
+      faceDetection();
+    });
+  };
+
+  let [emotionCounts, setEmotionCounts] = useState({
+    Happy: 0,
+    Sad: 0,
+    Anger: 0,
+    Surprise: 0,
+    Fear: 0,
+    Neutral: 0,
+  });
+
+  const faceDetection = async () => {
+    setInterval(async () => {
+      const detections = await faceapi
+        .detectAllFaces(
+          userVideoRef.current,
+          new faceapi.TinyFaceDetectorOptions()
+        )
+        .withFaceLandmarks()
+        .withFaceExpressions();
+
+      if (detections[0]?.expressions) {
+        const emotions = detections[0].expressions;
+        const highestEmotion1 = Object.entries(emotions).reduce(
+          (prev, curr) => {
+            return prev[1] > curr[1] ? prev : curr;
+          }
+        )[0];
+
+        console.log("emotion is : ", highestEmotion1);
+
+        if (highestEmotion1 === "happy") {
+          emotionCounts.Happy = emotionCounts.Happy + 1;
+        } else if (highestEmotion1 === "sad") {
+          emotionCounts.Sad = emotionCounts.Sad + 1;
+        } else if (highestEmotion1 === "angry") {
+          emotionCounts.Anger = emotionCounts.Anger + 1;
+        } else if (highestEmotion1 === "surprised") {
+          emotionCounts.Surprise = emotionCounts.Surprise + 1;
+        } else if (highestEmotion1 === "fearful") {
+          emotionCounts.Fear = emotionCounts.Fear + 1;
+        } else if (highestEmotion1 === "neutral") {
+          emotionCounts.Neutral = emotionCounts.Neutral + 1;
+        } else {
+          console.log("unknown emotion", highestEmotion1);
+        }
+
+        // Print the updated counts
+        console.log("Emotion counts: ", emotionCounts);
+        const user_id = sessionStorage.getItem("user_id");
+        try {
+          const response = await fetch("http://localhost:8000/emotions", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              user_id: user_id,
+              emotion: emotionCounts,
+            }),
+          });
+
+          if (response.ok) {
+            console.log("Emotion data sent successfully");
+          } else {
+            console.error("Error sending emotion data:", response.statusText);
+          }
+        } catch (error) {
+          console.error("Error sending emotion data:", error);
+        }
+      }
+    }, 3000);
+  };
+
+  const handleClose = () => setModal(false);
+
+  const handleShow = () => setModal(true);
 
   const getUserName = (e) => {
     const name = e.target.value;
