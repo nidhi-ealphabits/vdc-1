@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -9,6 +9,7 @@ import DatatablePage from "./DatatablePage";
 import { Chart } from "react-google-charts";
 import Header from "../Header/Header";
 import Bottombar1 from "../Bottombar/Bottombar1";
+
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -42,6 +43,20 @@ const options = {
 };
 
 function Analyties() {
+  const [response, setResponse] = useState();
+  const sessionId = sessionStorage.getItem("session_id");
+  // const userId=sessionStorage.getItem("userId")
+  useEffect(() => {
+    fetch(`http://localhost:8000/emotions/${sessionId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setResponse(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  });
+
   return (
     <>
       <div>
@@ -86,7 +101,7 @@ function Analyties() {
               </Grid>
               <Grid item xs={12} md={8}>
                 <Item className="right">
-                  <DatatablePage />
+                  <DatatablePage response={response} />
                 </Item>
               </Grid>
             </Grid>

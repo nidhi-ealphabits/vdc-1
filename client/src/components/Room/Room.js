@@ -226,7 +226,7 @@ function Room() {
         // console.log("data",data)
         sessionStorage.setItem("user", username);
         sessionStorage.setItem("user_id", data.userId);
-        // sessionStorage.setItem("session_id", data.sessionId);
+        sessionStorage.setItem("session_id", data.sessionId);
         // sessionStorage.setItem("path", path);
         // console.log(data);
         // navigate(`/${path}`);

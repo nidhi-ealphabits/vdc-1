@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const sessionSchema = new mongoose.Schema({
   session: {
     type: String,
-    required: true,
+    required: true
   }
 });
 
@@ -15,6 +15,7 @@ const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+    unique:true
   }
 });
 

@@ -13,6 +13,7 @@ let socketList = {};
 // const User = require("./models/schema");
 const { User, Session, Emotion } = require("./models/schema.js");
 const mongoose = require("mongoose");
+const { response } = require("express");
 mongoose
   .connect("mongodb://127.0.0.1:27017/webrtc")
   .then(() => console.log("Database Connected Successfully"))
@@ -65,8 +66,8 @@ app.post("/users", async (req, res) => {
     user.session_id.push(sessionDoc._id); // Add the session ID to the user's session_id array
     await user.save(); // Save the updated user document
 
-    sessionDoc.user_id.push(user._id); // Add the user ID to the session's user_id array
-    await sessionDoc.save(); // Save the updated session document
+    // sessionDoc.user_id.push(user._id); // Add the user ID to the session's user_id array
+    // await sessionDoc.save(); // Save the updated session document
 
     res.send({ userId: user._id, sessionId: sessionDoc._id });
     // res.send('Values added to both collections successfully.');
@@ -130,6 +131,35 @@ app.post("/emotions", async (req, res) => {
     }
   } catch (error) {
     res.status(500).send(error);
+  }
+});
+
+app.get("/emotions/:sessionId", async (req, res) => {
+  const sessionId = req.params.sessionId;
+
+  try {
+    const sessionUser = await User.find({"session_id.0":sessionId},{name:1});
+    // console.log(sessionUser)
+
+    // const usernames=sessionUser.map((users)=>console.log(users.name))
+
+    let allUser = sessionUser.map((userId)=> userId._id)
+    // console.log(allUser)
+
+    const sessionEmotion = await Emotion.find({"user_id.0":allUser});
+    // console.log(sessionEmotion)
+   const emotionResponse= sessionEmotion.map((sessionEmotion) => {
+      const userId = sessionEmotion.user_id[0];
+      const user = sessionUser.find((user) => user._id.equals(userId));
+      return { username: user.name, emotions: sessionEmotion.emotion };
+    })
+
+    res.json(emotionResponse);
+
+  
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
