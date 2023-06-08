@@ -15,7 +15,7 @@ const { User, Session, Emotion } = require("./models/schema.js");
 const mongoose = require("mongoose");
 const { response } = require("express");
 mongoose
-  .connect("mongodb://127.0.0.1:27017/webrtc")
+  .connect("mongodb+srv://nidhi:CgnDbz23ZgxLBCTc@vdc.w3uew8n.mongodb.net/")
   .then(() => console.log("Database Connected Successfully"))
   .catch((error) => console.log(error));
 
