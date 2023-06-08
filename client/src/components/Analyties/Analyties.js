@@ -51,10 +51,9 @@ function Analyties() {
       .then((response) => response.json())
       .then((data) => {
         setResponseData(data);
-
       })
       .catch((error) => {
-        console.error(error);
+        console.error("error in the analytics",error);
       });
   });
 

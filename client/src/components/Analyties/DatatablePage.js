@@ -1,16 +1,36 @@
 import React from "react";
 import { MDBDataTable } from "mdbreact";
 import "./table.css";
-// import { toBeRequired } from '@testing-library/jest-dom/dist/matchers';
 
 const DatatablePage = (props) => {
-  const emotionResponse=props.response;
+  const emotionResponse = props.response;
 
-  // if (!Array.isArray(emotionResponse)) {
-  //   console.error("rawDevices is not an array");
-  //   return []; // or throw new Error("rawDevices is not an array");
-  // }
+  if (!Array.isArray(emotionResponse)) {
+    console.error("rawDevices is not an array");
+    return []; // or throw new Error("rawDevices is not an array");
+  }
 
+  // Calculate the total count for each emotion
+  let totalHappy = 0;
+  let totalSad = 0;
+  let totalSurprise = 0;
+  let totalNeutral = 0;
+
+  // Iterate over each response to calculate the totals
+  emotionResponse.forEach((response) => {
+    totalHappy = response.emotions.Happy;
+    totalSad = response.emotions.Sad;
+    totalSurprise = response.emotions.Surprise;
+    totalNeutral = response.emotions.Neutral;
+  });
+
+  let totalEmotion = totalHappy + totalNeutral + totalSad + totalSurprise;
+
+  // Calculate the average for each emotion
+  const averageHappy = Math.round((totalHappy / totalEmotion) * 100);
+  const averageSad = Math.round((totalSad / totalEmotion) * 100);
+  const averageSurprise = Math.round((totalSurprise / totalEmotion) * 100);
+  const averageNeutral = Math.round((totalNeutral / totalEmotion) * 100);
 
   const data = {
     columns: [
@@ -44,83 +64,23 @@ const DatatablePage = (props) => {
         field: "neutral",
         noSort: true, // disable sorting for this column
       },
-   
-   
     ],
+    // rows: emotionResponse.map((response, index) => ({
+    //   name: index + 1,
+    //   user_name: response.username,
+    //   happy: response.emotions.Happy,
+    //   sad: response.emotions.Sad,
+    //   surprise: response.emotions.Surprise,
+    //   neutral: response.emotions.Neutral,
+    // })),
     rows: emotionResponse.map((response, index) => ({
       name: index + 1,
       user_name: response.username,
-      happy: response.emotions.Happy,
-      sad: response.emotions.Sad,
-      surprise: response.emotions.Surprise,
-      neutral: response.emotions.Neutral,
+      happy: averageHappy + "%",
+      sad: averageSad + "%",
+      surprise: averageSurprise + "%",
+      neutral: averageNeutral + "%",
     })),
-    // rows: [
-    //   {
-    //     name: "1",
-    //     user_name: "Palash Siyal",
-    //     happy: "50%",
-    //     sad: "30%",
-    //     surprise: "15%",
-    //     neutral: "5%",
-    //   },
-    //   {
-    //     name: "2",
-    //     user_name: "Nidhi Patel",
-    //     happy: "50%",
-    //     sad: "30%",
-    //     surprise: "15%",
-    //     neutral: "5%",
-    //   },
-    //   {
-    //     name: "3",
-    //     user_name: "Mahendra Rajput",
-    //     happy: "50%",
-    //     sad: "30%",
-    //     surprise: "15%",
-    //     neutral: "5%",
-    //   },
-    //   {
-    //     name: "4",
-    //     user_name: "Aneri Panchal",
-    //     happy: "50%",
-    //     sad: "30%",
-    //     surprise: "15%",
-    //     neutral: "5%",
-    //   },
-    //   {
-    //     name: "5",
-    //     user_name: "Avinash Kumar",
-    //     happy: "50%",
-    //     sad: "30%",
-    //     surprise: "15%",
-    //     neutral: "5%",
-    //   },
-    //   {
-    //     name: "6",
-    //     user_name: "Abhishek Majhi",
-    //     happy: "50%",
-    //     sad: "30%",
-    //     surprise: "15%",
-    //     neutral: "5%",
-    //   },
-    //   {
-    //     name: "7",
-    //     user_name: "Harsh Chauhan",
-    //     happy: "50%",
-    //     sad: "30%",
-    //     surprise: "15%",
-    //     neutral: "5%",
-    //   },
-    //   {
-    //     name: "8",
-    //     user_name: "Dilip Joshi",
-    //     happy: "50%",
-    //     sad: "30%",
-    //     surprise: "15%",
-    //     neutral: "5%",
-    //   }
-    // ],
   };
 
   // const options = {

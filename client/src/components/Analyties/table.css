@@ -11,10 +11,18 @@
 .mdb-table th,
 .mdb-table td {
     border: none;
+    /* background-color: pink; */
     padding-top: 0.51rem!important;
     padding-bottom: 0.5rem!important;
 }
-
+.table-responsive{
+    margin-left:1rem!important;
+    line-height:3!important
+}
+.table-responsive table{
+    margin-top: 1rem!important;
+    margin-bottom: 2rem!important;
+}
 .mdb-table tbody > tr > td {
     border: none;
 }
@@ -36,6 +44,7 @@
 .mdb-table .dataTables_filter{
     float: left!important;
 }
+
 
 /* .dataTables_wrapper div:first-child{
     display:flex;
