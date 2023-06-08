@@ -3,8 +3,15 @@ import { MDBDataTable } from "mdbreact";
 import "./table.css";
 // import { toBeRequired } from '@testing-library/jest-dom/dist/matchers';
 
-const DatatablePsad = (props) => {
+const DatatablePage = (props) => {
   const emotionResponse=props.response;
+
+  // if (!Array.isArray(emotionResponse)) {
+  //   console.error("rawDevices is not an array");
+  //   return []; // or throw new Error("rawDevices is not an array");
+  // }
+
+
   const data = {
     columns: [
       {
@@ -43,10 +50,10 @@ const DatatablePsad = (props) => {
     rows: emotionResponse.map((response, index) => ({
       name: index + 1,
       user_name: response.username,
-      happy: response.emotions.happy,
-      sad: response.emotions.sad,
-      surprise: response.emotions.surprise,
-      neutral: response.emotions.neutral,
+      happy: response.emotions.Happy,
+      sad: response.emotions.Sad,
+      surprise: response.emotions.Surprise,
+      neutral: response.emotions.Neutral,
     })),
     // rows: [
     //   {
@@ -142,4 +149,4 @@ const DatatablePsad = (props) => {
   );
 };
 
-export default DatatablePsad;
+export default DatatablePage;

@@ -43,14 +43,15 @@ const options = {
 };
 
 function Analyties() {
-  const [response, setResponse] = useState();
+  const [responseData, setResponseData] = useState();
   const sessionId = sessionStorage.getItem("session_id");
   // const userId=sessionStorage.getItem("userId")
   useEffect(() => {
     fetch(`http://localhost:8000/emotions/${sessionId}`)
       .then((response) => response.json())
       .then((data) => {
-        setResponse(data);
+        setResponseData(data);
+
       })
       .catch((error) => {
         console.error(error);
@@ -101,7 +102,7 @@ function Analyties() {
               </Grid>
               <Grid item xs={12} md={8}>
                 <Item className="right">
-                  <DatatablePage response={response} />
+                  <DatatablePage response={responseData} />
                 </Item>
               </Grid>
             </Grid>

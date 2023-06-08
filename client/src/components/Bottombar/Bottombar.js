@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback,useState } from "react";
 import "./Bottombar.css";
 import { Container, Col, Row, Stack } from "react-bootstrap";
 import Microphone from "../../assests/mic.svg";
@@ -23,6 +23,7 @@ function Bottombar({
   showVideoDevices,
   setShowVideoDevices,
 }) {
+  const [show,setShow]=useState(true)
   const handleToggle = useCallback(
     (e) => {
       setShowVideoDevices((state) => !state);
@@ -33,11 +34,21 @@ function Bottombar({
   const navigate = useNavigate();
 
   const openAnalytics = (e) => {
-    navigate("/analyties");
+    setShow(!show)
+    if (show) {
+      navigate("/analyties");
+    } else {
+      navigate("/")
+    }
   };
 
   return (
     <>
+    {/* {show && (
+      <>
+      <Analytics/>
+      </>
+    )} */}
       <div className="container">
         <div className="bottombar">
           <div className="analytics" onClick={openAnalytics}>

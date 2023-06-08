@@ -9,22 +9,24 @@ import Chat from "../../assests/Chat.svg";
 import Analytics from "../../assests/Analytics.svg";
 import VideoIcon from "../../assests/Videocamera.svg";
 import VideoOffIcon from "../../assests/VideoSlash.svg";
-import { useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 
 function Bottombar1() {
   
-
-//   const navigate = useNavigate();
+const path=sessionStorage.getItem("path")
+  const navigate = useNavigate();
 
   const openAnalytics = (e) => {
     // navigate("/analyties");
+    navigate(`/${path}`)
+
   };
 
   return (
     <>
       <div className="container">
         <div className="bottombar">
-          <div className="analytics" >
+          <div className="analytics" onClick={openAnalytics}>
             <img className="icon" src={Analytics}></img>
             <div className="text">Call Analytics</div>
           </div>
