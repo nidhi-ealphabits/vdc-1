@@ -23,14 +23,6 @@ app.use(express.static(path.join(__dirname, "../client/build")));
 app.use(express.json());
 app.use(cors());
 
-// app.get('/*', function (req, res) {
-//     res.sendFile(path.join(__dirname, '../client/build/index.html')),
-//     function(err){
-//       if(err){
-//         res.status(500).send(err);
-//       }
-//     }
-//   });
 
 // Route
 app.get("/ping", (req, res) => {

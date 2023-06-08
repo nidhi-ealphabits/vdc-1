@@ -21,7 +21,7 @@ const navigate=useNavigate()
     
   };
   const handleClose = () => {
-    setShowChildModal(false);
+    // setShowChildModal(false);
     props.onClose();
   };
 
