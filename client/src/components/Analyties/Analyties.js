@@ -45,7 +45,6 @@ const options = {
 function Analyties() {
   const [responseData, setResponseData] = useState();
   const sessionId = sessionStorage.getItem("session_id");
-  // const userId=sessionStorage.getItem("userId")
   useEffect(() => {
     fetch(`http://localhost:8000/emotions/${sessionId}`)
       .then((response) => response.json())

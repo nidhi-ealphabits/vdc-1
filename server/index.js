@@ -7,16 +7,19 @@ const path = require("path");
 const cors = require("cors");
 const io = require("socket.io")(http);
 const PORT = process.env.PORT || 8000;
-
+require('dotenv').config();
 let socketList = {};
 // database connection
 // const User = require("./models/schema");
 const { User, Session, Emotion } = require("./models/schema.js");
 const mongoose = require("mongoose");
-const { response } = require("express");
+
+const username = process.env.DB_USERNAME;
+const password = process.env.DB_PASSWORD;
+const connectionString = `mongodb+srv://${username}:${password}@vdc.w3uew8n.mongodb.net/`;
 mongoose
-  // .connect("mongodb+srv://nidhi:CgnDbz23ZgxLBCTc@vdc.w3uew8n.mongodb.net/")
-  .connect("mongodb://localhost:27017/webrtc")
+  .connect(connectionString)
+  // .connect("mongodb://localhost:27017/webrtc")
   .then(() => console.log("Database Connected Successfully"))
   .catch((error) => console.log(error));
 
@@ -68,15 +71,6 @@ app.post("/users", async (req, res) => {
     console.error("Error adding values to collections:", error);
     res.status(500).send("Error adding values to collections");
   }
-  // const user = new User({
-  //   name: req.body.name,
-  // });
-  // try {
-  //   const a1 = await user.save();
-  //   res.json(a1);
-  // } catch (err) {
-  //   console.log(err);
-  // }
 });
 
 // Create an endpoint to handle the creation of emotion data

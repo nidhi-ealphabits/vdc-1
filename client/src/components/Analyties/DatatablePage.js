@@ -16,6 +16,11 @@ const DatatablePage = (props) => {
   let totalSurprise = 0;
   let totalNeutral = 0;
 
+  // let sumHappy = 0;
+  // let sumSad = 0;
+  // let sumSurprise = 0;
+  // let sumNeutral = 0;
+
   // Iterate over each response to calculate the totals
   emotionResponse.forEach((response) => {
     totalHappy = response.emotions.Happy;
@@ -31,6 +36,24 @@ const DatatablePage = (props) => {
   const averageSad = Math.round((totalSad / totalEmotion) * 100);
   const averageSurprise = Math.round((totalSurprise / totalEmotion) * 100);
   const averageNeutral = Math.round((totalNeutral / totalEmotion) * 100);
+
+  // // Iterate over each response to calculate the sums
+  // emotionResponse.forEach((response) => {
+  //   sumHappy += response.emotions.Happy;
+  //   sumSad += response.emotions.Sad;
+  //   sumSurprise += response.emotions.Surprise;
+  //   sumNeutral += response.emotions.Neutral;
+  // });
+
+  // const alltotalEmotion = emotionResponse.length;
+
+  // // Calculate the overall average for each emotion
+  // const allaverageHappy = (sumHappy / totalEmotion).toFixed(2);
+  // const allaverageSad = (sumSad / totalEmotion).toFixed(2);
+  // const allaverageSurprise = (sumSurprise / totalEmotion).toFixed(2);
+  // const allaverageNeutral = (sumNeutral / totalEmotion).toFixed(2);
+
+// console.log("all averageHappy",allaverageHappy,"all averageSad",allaverageSad,"all averageSurprise",allaverageSurprise,"all average Neutral",allaverageNeutral)
 
   const data = {
     columns: [

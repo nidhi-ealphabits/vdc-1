@@ -1,17 +1,10 @@
 import { useEffect, useState } from "react";
 import { Modal, Button, InputGroup, Form } from "react-bootstrap";
-import Details from "./Details";
-import { v4 as uuidv4 } from 'uuid';
+// import Details from "./Details";
 import {useNavigate} from 'react-router-dom'
 
 function CreateMeeting(props) {
   const [showChildModal, setShowChildModal] = useState(false);
-  // const randomString = [
-  //   Math.random().toString(26).substr(2, 3),
-  //   Math.random().toString(26).substr(2, 3),
-  //   Math.random().toString(26).substr(2, 3),
-  //   Math.random().toString(26).substr(2, 3),
-  // ].join("-");
 
   const navigate=useNavigate();
   const randomString = [
@@ -95,11 +88,11 @@ function CreateMeeting(props) {
         </Modal.Body>
         <Modal.Footer>
         <Button onClick={join}>Join Meeting</Button>
-          <Details
+          {/* <Details
             link={joinLink}
             show={showChildModal}
             onClose={handleClose}
-          />
+          /> */}
       </Modal.Footer>
       </Modal>
     </div>

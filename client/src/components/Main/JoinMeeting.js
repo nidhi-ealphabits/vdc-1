@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Button, FloatingLabel, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import Details from "./Details";
+// 
 
 function JoinMeeting(props) {
   // const [showChildModal, setShowChildModal] = useState(false);
@@ -13,8 +13,6 @@ const navigate=useNavigate()
     setCode(e.target.value);
   };
   const joinRoom = () => {
-    // console.log(code)
-    // console.log(joinLink)
     sessionStorage.setItem("path",code)
     navigate(`${code}`)
     // setShowChildModal(true);
@@ -42,7 +40,6 @@ const navigate=useNavigate()
         </FloatingLabel>
        <Modal.Footer>
        <Button onClick={joinRoom}>Join Meeting</Button>
-        {/* <Details link={joinLink} show={showChildModal} onClose={handleClose} /> */}
        </Modal.Footer>
         
       </Modal.Body>

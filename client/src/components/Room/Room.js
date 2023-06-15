@@ -11,7 +11,6 @@ import socket from "../Socket/socket";
 import VideoCard from "./VideoCard";
 import "./Room.css";
 import "./responsive.css";
-import Details from "../Main/Details";
 import { Modal, Button, FloatingLabel, Form } from "react-bootstrap";
 import Chat from "../Chat/Chat";
 import * as faceapi from "face-api.js";
@@ -607,7 +606,6 @@ function Room() {
           }
           <Header />
           <div style={{ zIndex: 1 }}>
-            {/* <CardGrid/> */}
 
             {peers.length === 0 ? (
               <div className="videoContainer">
