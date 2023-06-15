@@ -14,9 +14,10 @@ let socketList = {};
 const { User, Session, Emotion } = require("./models/schema.js");
 const mongoose = require("mongoose");
 
-const username = process.env.DB_USERNAME;
-const password = process.env.DB_PASSWORD;
-const connectionString = `mongodb+srv://${username}:${password}@vdc.w3uew8n.mongodb.net/`;
+// const username = process.env.DB_USERNAME;
+// const password = process.env.DB_PASSWORD;
+// const connectionString = `mongodb+srv://${username}:${password}@vdc.w3uew8n.mongodb.net/`;
+
 mongoose
   // .connect(connectionString)
 .connect("mongodb+srv://nidhi:CgnDbz23ZgxLBCTc@vdc.w3uew8n.mongodb.net/")
