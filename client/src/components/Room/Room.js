@@ -41,10 +41,16 @@ function Room() {
 
   useEffect(() => {
     setModal(true);
+      // return () => {
+    //   socket.disconnect();
+    // };
   }, []);
 
   useEffect(() => {
     userVideoRef && loadModels();
+      // return () => {
+    //   socket.disconnect();
+    // };
   });
 
   useEffect(() => {

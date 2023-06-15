@@ -7,20 +7,21 @@ const path = require("path");
 const cors = require("cors");
 const io = require("socket.io")(http);
 const PORT = process.env.PORT || 8000;
-require('dotenv').config();
+require("dotenv").config();
 let socketList = {};
 // database connection
 // const User = require("./models/schema");
 const { User, Session, Emotion } = require("./models/schema.js");
 const mongoose = require("mongoose");
 
-// const username = process.env.DB_USERNAME;
-// const password = process.env.DB_PASSWORD;
-// const connectionString = `mongodb+srv://${username}:${password}@vdc.w3uew8n.mongodb.net/`;
+const username = process.env.DB_USERNAME;
+const password = process.env.DB_PASSWORD;
+// console.log(password)
+const connectionString = `mongodb+srv://${username}:${password}@vdc.w3uew8n.mongodb.net/`;
 
 mongoose
-  // .connect(connectionString)
-.connect("mongodb+srv://nidhi:CgnDbz23ZgxLBCTc@vdc.w3uew8n.mongodb.net/")
+  .connect(connectionString)
+  // .connect("mongodb+srv://nidhi:CgnDbz23ZgxLBCTc@vdc.w3uew8n.mongodb.net/")
   // .connect("mongodb://localhost:27017/webrtc")
   .then(() => console.log("Database Connected Successfully"))
   .catch((error) => console.log(error));
@@ -28,7 +29,6 @@ mongoose
 app.use(express.static(path.join(__dirname, "../client/build")));
 app.use(express.json());
 app.use(cors());
-
 
 // Route
 app.get("/ping", (req, res) => {
@@ -127,25 +127,26 @@ app.get("/emotions/:sessionId", async (req, res) => {
   const sessionId = req.params.sessionId;
 
   try {
-    const sessionUser = await User.find({"session_id.0":sessionId},{name:1});
+    const sessionUser = await User.find(
+      { "session_id.0": sessionId },
+      { name: 1 }
+    );
     // console.log(sessionUser)
 
     // const usernames=sessionUser.map((users)=>console.log(users.name))
 
-    let allUser = sessionUser.map((userId)=> userId._id)
+    let allUser = sessionUser.map((userId) => userId._id);
     // console.log(allUser)
 
-    const sessionEmotion = await Emotion.find({"user_id.0":allUser});
+    const sessionEmotion = await Emotion.find({ "user_id.0": allUser });
     // console.log(sessionEmotion)
-   const emotionResponse= sessionEmotion.map((sessionEmotion) => {
+    const emotionResponse = sessionEmotion.map((sessionEmotion) => {
       const userId = sessionEmotion.user_id[0];
       const user = sessionUser.find((user) => user._id.equals(userId));
       return { username: user.name, emotions: sessionEmotion.emotion };
-    })
+    });
 
     res.json(emotionResponse);
-
-  
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
