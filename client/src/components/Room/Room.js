@@ -305,7 +305,9 @@ function Room() {
         console.log("Emotion counts: ", emotionCounts);
         const user_id = sessionStorage.getItem("user_id");
         try {
-          const response = await fetch("http://localhost:8000/emotions", {
+          // const response = await fetch("http://localhost:8000/emotions", {
+          const response = await fetch("https://testwebapp.ealphabits.com/emotions", {
+
             method: "POST",
             headers: {
               "Content-Type": "application/json",
