@@ -212,7 +212,7 @@ function Room() {
     // socket.emit('BE-check-user', { roomId, userName:username });
     // console.log(username)
     // fetch("http://localhost:8000/users", {
-    fetch("https://testwebapp.ealphabits.com/users", {
+    fetch("https://15.206.231.201/users", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
@@ -306,7 +306,7 @@ function Room() {
         const user_id = sessionStorage.getItem("user_id");
         try {
           // const response = await fetch("http://localhost:8000/emotions", {
-          const response = await fetch("https://testwebapp.ealphabits.com/emotions", {
+          const response = await fetch("https://15.206.231.201/emotions", {
 
             method: "POST",
             headers: {

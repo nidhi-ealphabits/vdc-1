@@ -5,7 +5,7 @@ module.exports = function (app) {
     "/",
     createProxyMiddleware({
       // target: "http://localhost:8000",
-      target: "https://testwebapp.ealphabits.com/",
+      target: "https://15.206.231.201/",
       changeOrigin: true,
     })
   );
