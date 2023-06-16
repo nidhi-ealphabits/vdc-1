@@ -46,7 +46,9 @@ function Analyties() {
   const [responseData, setResponseData] = useState();
   const sessionId = sessionStorage.getItem("session_id");
   useEffect(() => {
-    fetch(`http://localhost:8000/emotions/${sessionId}`)
+    // fetch(`http://localhost:8000/emotions/${sessionId}`)
+    fetch(`https://testwebapp.ealphabits.com/emotions/${sessionId}`)
+
       .then((response) => response.json())
       .then((data) => {
         setResponseData(data);

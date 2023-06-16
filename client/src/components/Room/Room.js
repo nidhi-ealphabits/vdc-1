@@ -211,7 +211,8 @@ function Room() {
     setRoom(true);
     // socket.emit('BE-check-user', { roomId, userName:username });
     // console.log(username)
-    fetch("http://localhost:8000/users", {
+    // fetch("http://localhost:8000/users", {
+    fetch("https://testwebapp.ealphabits.com/users", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
