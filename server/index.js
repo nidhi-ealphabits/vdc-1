@@ -20,8 +20,8 @@ const password = process.env.DB_PASSWORD;
 const connectionString = `mongodb+srv://${username}:${password}@vdc.w3uew8n.mongodb.net/`;
 
 mongoose
-  .connect(connectionString)
-  // .connect("mongodb+srv://nidhi:CgnDbz23ZgxLBCTc@vdc.w3uew8n.mongodb.net/")
+  // .connect(connectionString)
+  .connect("mongodb+srv://nidhi:CgnDbz23ZgxLBCTc@vdc.w3uew8n.mongodb.net/")
   // .connect("mongodb://localhost:27017/webrtc")
   .then(() => console.log("Database Connected Successfully"))
   .catch((error) => console.log(error));
