@@ -25,10 +25,9 @@ function Room() {
   const [userVideoAudio, setUserVideoAudio] = useState({
     localUser: { video: true, audio: true },
   });
-  const [videoDevices, setVideoDevices] = useState([]);
   const [displayChat, setDisplayChat] = useState(false);
   const [screenShare, setScreenShare] = useState(false);
-  const [showVideoDevices, setShowVideoDevices] = useState(false);
+  const [analytics, setAnalytics] = useState(false);
   const peersRef = useRef([]);
   const userVideoRef = useRef();
   const screenTrackRef = useRef();
@@ -36,40 +35,62 @@ function Room() {
   const [modal, setModal] = useState(false);
   const [room, setRoom] = useState(false);
   // const roomId = props.match.params.path;
-  const regex = /^[a-zA-Z0-9_-]+$/;
+  const regex = /^[a-zA-Z0-9_-\s]+$/;
   const navigate = useNavigate();
+  //object of emotions
+  let [emotionCounts, setEmotionCounts] = useState({
+    Happy: 0,
+    Sad: 0,
+    Anger: 0,
+    Surprise: 0,
+    Fear: 0,
+    Neutral: 0,
+  });
 
   useEffect(() => {
+    //modal for username
     setModal(true);
-      // return () => {
+    // return () => {
     //   socket.disconnect();
     // };
   }, []);
 
   useEffect(() => {
-    userVideoRef && loadModels();
-      // return () => {
+    //   if(room){
+    // loadModels();
+    //   }
+    // if(userVideoRef){ loadModels();}
+    loadModels();
+    // return () => {
     //   socket.disconnect();
     // };
   });
 
+  //  useEffect(()=>{
+  //       //  setTimeout(() => {
+  //     sendDataToDb();      
+  //   // }, 3000);
+  // },[])
+
   useEffect(() => {
     // console.log(roomId)
     if (room) {
+      userVideoRef && sendDataToDb()
+      // if(userVideoRef){ sendDataToDb()}
       setModal(false);
 
-      // Get Video Devices
-      navigator.mediaDevices
-        .enumerateDevices()
-        .then((devices) => {
-          const filtered = devices.filter(
-            (device) => device.kind === "videoinput"
-          );
-          setVideoDevices(filtered);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      // // Get Video Devices
+      // navigator.mediaDevices
+      //   .enumerateDevices()
+      //   .then((devices) => {
+      //     const filtered = devices.filter(
+      //       (device) => device.kind === "videoinput"
+      //     );
+      //     setVideoDevices(filtered);
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //   });
 
       // Set Back Button Event
       window.addEventListener("popstate", goToBack);
@@ -186,7 +207,55 @@ function Room() {
     // eslint-disable-next-line
   }, [room]);
 
+  const sendDataToDb = async()=>{
+      setInterval(async() => {
+      const emotionCounts = JSON.parse(sessionStorage.getItem("emotionCounts"))
+
+      console.log("Emotion counts: ", emotionCounts);
+      const user_id = sessionStorage.getItem("user_id");
+      try {
+        const response = await fetch("http://localhost:8000/emotions", {
+          // const response = await fetch("https://testwebapp.ealphabits.com/emotions", {
+  
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user_id: user_id,
+            emotion: emotionCounts,
+          }),
+        });
+  
+        // if (response.ok) {
+        //   console.log("Emotion data sent successfully");
+        // } else {
+        //   console.error("Error sending emotion data:", response.statusText);
+        // }
+      } catch (error) {
+        console.error("Error sending emotion data:", error);
+      }
+
+    }, 1000);
+  
+  }
+
+  // if (room) {
+  //  userVideoRef &&  loadModels();
+  // }
+
+  //functions of username modal
+  const handleClose = () => setModal(false);
+
+  const handleShow = () => setModal(true);
+
+  const getUserName = (e) => {
+    const name = e.target.value;
+    setUserName(name);
+  };
+
   const join = (e) => {
+    //validation for username
     if (username.length <= 0) {
       setError("UserName is Required..!!");
       setTimeout(() => {
@@ -207,12 +276,10 @@ function Room() {
       return;
     }
     sessionStorage.setItem("user", username);
-    setModal(false);
-    setRoom(true);
-    // socket.emit('BE-check-user', { roomId, userName:username });
-    // console.log(username)
+
+    // posting user and session to the database
     fetch("http://localhost:8000/users", {
-    // fetch("https://15.206.231.201/users", {
+      // fetch("https://testwebapp.ealphabits.com/users", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
@@ -233,11 +300,6 @@ function Room() {
         sessionStorage.setItem("user", username);
         sessionStorage.setItem("user_id", data.userId);
         sessionStorage.setItem("session_id", data.sessionId);
-        // sessionStorage.setItem("path", path);
-        // console.log(data);
-        // navigate(`/${path}`);
-        // props.history.push(`/${path}`);
-        // window.location.replace(meetingURL);
         setModal(false);
         setRoom(true);
         // props.onClose();
@@ -246,6 +308,7 @@ function Room() {
     e.preventDefault();
   };
 
+  //loading models from face api to get emotion Detection
   const loadModels = () => {
     Promise.all([
       faceapi.nets.tinyFaceDetector.loadFromUri("/models"),
@@ -256,15 +319,7 @@ function Room() {
     });
   };
 
-  let [emotionCounts, setEmotionCounts] = useState({
-    Happy: 0,
-    Sad: 0,
-    Anger: 0,
-    Surprise: 0,
-    Fear: 0,
-    Neutral: 0,
-  });
-
+  //emotion Detection Function
   const faceDetection = async () => {
     setInterval(async () => {
       const detections = await faceapi
@@ -301,44 +356,12 @@ function Room() {
           console.log("unknown emotion", highestEmotion1);
         }
 
-        // Print the updated counts
-        console.log("Emotion counts: ", emotionCounts);
-        const user_id = sessionStorage.getItem("user_id");
-        try {
-          const response = await fetch("http://localhost:8000/emotions", {
-          // const response = await fetch("https://15.206.231.201/emotions", {
-
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              user_id: user_id,
-              emotion: emotionCounts,
-            }),
-          });
-
-          if (response.ok) {
-            console.log("Emotion data sent successfully");
-          } else {
-            console.error("Error sending emotion data:", response.statusText);
-          }
-        } catch (error) {
-          console.error("Error sending emotion data:", error);
-        }
+        sessionStorage.setItem("emotionCounts",JSON.stringify(emotionCounts))
       }
     }, 3000);
   };
 
-  const handleClose = () => setModal(false);
-
-  const handleShow = () => setModal(true);
-
-  const getUserName = (e) => {
-    const name = e.target.value;
-    setUserName(name);
-  };
-
+  //create a peer  using simple-peer
   function createPeer(userId, caller, stream) {
     const peer = new Peer({
       initiator: true,
@@ -359,6 +382,7 @@ function Room() {
     return peer;
   }
 
+  //add the peer
   function addPeer(incomingSignal, callerId, stream) {
     const peer = new Peer({
       initiator: false,
@@ -379,51 +403,17 @@ function Room() {
     return peer;
   }
 
+  //find peer
   function findPeer(id) {
     return peersRef.current.find((p) => p.peerID === id);
   }
 
-  function createUserVideo(peer, index, arr) {
-    return (
-      // <VideoBox
-      //   className={`width-peer${peers.length > 8 ? "" : peers.length}`}
-      //   onClick={expandScreen}
-      //   key={index}
-      // >
-      //   {writeUserName(peer.userName)}
-      //   <FaIcon className="fas fa-expand" />
-      //   <VideoCard key={index} peer={peer} number={arr.length} />
-      // </VideoBox>
-
-      //       //custom
-      //       <div className="VideoBox width-peer{{ peers.length > 8 ? '' : peers.length }}"
-      //       //  onclick="expandScreen()"
-      //        >
-      //       { writeUserName(peer.userName) }
-      //       {/* <i className="fas fa-expand"></i> */}
-      //       <VideoCard key={index} peer={peer} number={arr.length} />
-      // </div>
-      // <div className="VideoContainer">
-      <div
-        className={`video-box width-peer${
-          peers.length > 8 ? "" : peers.length
-        }`}
-        key={index}
-      >
-        {writeUserName(peer.userName)}
-        {/* <i className="FaIcon fas fa-expand"></i> */}
-        {/* <video className="MyVideo" muted autoPlay playsInline></video> */}
-        <VideoCard key={index} peer={peer} number={arr.length} />
-      </div>
-      // </div>
-    );
-  }
-
+  //function for writing user name when camera is off
   function writeUserName(userName, index) {
     if (userVideoAudio.hasOwnProperty(userName)) {
       if (!userVideoAudio[userName].video) {
         return (
-          <div className="userName" key={userName}>
+          <div className="UserName" key={userName}>
             {userName}
           </div>
         );
@@ -432,23 +422,34 @@ function Room() {
   }
 
   // Open Chat
-
   const clickChat = (e) => {
     e.stopPropagation();
     setDisplayChat(!displayChat);
   };
 
   // BackButton
-  const goToBack = (e) => {
+  const goToBack = async (e) => {
     e.preventDefault();
     socket.emit("BE-leave-room", { roomId, leaver: currentUser });
+  
+    // Get the user ID from sessionStorage
+    const userId = sessionStorage.getItem("user");
+  
+    // // Make a POST request to update the user's exit time
+    // try {
+    //   await axios.post("/users/exit", { userId });
+    // } catch (error) {
+    //   console.error("Error updating user exit time:", error);
+    // }
+  
     sessionStorage.removeItem("user");
-    // window.location.href = "/";
     navigate("/");
   };
 
-  const toggleCameraAudio = (e) => {
-    const target = e.target.getAttribute("data-switch");
+  //for toggling audio and video
+  const toggleCameraAudio = (e, kind) => {
+    const target = kind;
+    // const target = e.target.getAttribute("data-switch");
     console.log("target", target);
 
     setUserVideoAudio((preList) => {
@@ -481,6 +482,7 @@ function Room() {
     socket.emit("BE-toggle-camera-audio", { roomId, switchTarget: target });
   };
 
+  //screenshare function
   const clickScreenSharing = () => {
     if (!screenShare) {
       navigator.mediaDevices
@@ -523,63 +525,10 @@ function Room() {
     }
   };
 
-  const expandScreen = (e) => {
-    const elem = e.target;
-
-    if (elem.requestFullscreen) {
-      elem.requestFullscreen();
-    } else if (elem.mozRequestFullScreen) {
-      /* Firefox */
-      elem.mozRequestFullScreen();
-    } else if (elem.webkitRequestFullscreen) {
-      /* Chrome, Safari & Opera */
-      elem.webkitRequestFullscreen();
-    } else if (elem.msRequestFullscreen) {
-      /* IE/Edge */
-      elem.msRequestFullscreen();
-    }
-  };
-
-  const clickBackground = () => {
-    if (!showVideoDevices) return;
-
-    setShowVideoDevices(false);
-  };
-
-  const clickCameraDevice = (event) => {
-    if (
-      event &&
-      event.target &&
-      event.target.dataset &&
-      event.target.dataset.value
-    ) {
-      const deviceId = event.target.dataset.value;
-      const enabledAudio =
-        userVideoRef.current.srcObject.getAudioTracks()[0].enabled;
-
-      navigator.mediaDevices
-        .getUserMedia({ video: { deviceId }, audio: enabledAudio })
-        .then((stream) => {
-          const newStreamTrack = stream
-            .getTracks()
-            .find((track) => track.kind === "video");
-          const oldStreamTrack = userStream.current
-            .getTracks()
-            .find((track) => track.kind === "video");
-
-          userStream.current.removeTrack(oldStreamTrack);
-          userStream.current.addTrack(newStreamTrack);
-
-          peersRef.current.forEach(({ peer }) => {
-            // replaceTrack (oldTrack, newTrack, oldStream);
-            peer.replaceTrack(
-              oldStreamTrack,
-              newStreamTrack,
-              userStream.current
-            );
-          });
-        });
-    }
+  //function for toggling the anaytics
+  const toggleAnalytics = () => {
+    setAnalytics((state) => !state);
+    console.log("Hello", analytics);
   };
 
   return (
@@ -612,10 +561,9 @@ function Room() {
       )}
       {room && (
         <>
-          }
+          {/* } */}
           <Header />
           <div style={{ zIndex: 1 }}>
-
             {peers.length === 0 ? (
               <div className="videoContainer">
                 <div className="one-video">
@@ -653,6 +601,8 @@ function Room() {
                     autoPlay
                   ></video>
                 </div>
+
+                {/* display other user's video */}
                 {peers.map((peer, index, arr) => (
                   //  createUserVideo(peer, index, arr)
                   <div
@@ -662,56 +612,31 @@ function Room() {
                     key={index}
                   >
                     {writeUserName(peer.userName)}
-                    {/* <i className="FaIcon fas fa-expand"></i> */}
-                    {/* <video className="MyVideo" muted autoPlay playsInline></video> */}
                     <VideoCard key={index} peer={peer} number={arr.length} />
                   </div>
                 ))}
               </div>
             )}
-
-            {/* <div
-              className={`video-box width-peer${
-                peers.length > 8 ? "" : peers.length
-              }`}
-            > */}
-            {/* {userVideoAudio["localUser"].video ? null : ( */}
-            {/* <div className="UserName">{currentUser}</div> */}
-            {/* )} */}
-            {/* {writeUserName(peer.currentUser)} */}
-            {/* <i className="fas fa-expand"></i> */}
-            {/* <video
-                className="video-card"
-                ref={userVideoRef}
-                muted
-                autoPlay
-                playsInline
-              ></video> */}
-            {/* </div> */}
-            {/* Joined User Video */}
-
-            {/* {peers &&
-                peers.map((peer, index, arr) =>
-                  createUserVideo(peer, index, arr)
-                )} */}
           </div>
           {/* <div style={{ zIndex: 1 }}> */}
           <Bottombar
+            toggleAnalytics={toggleAnalytics}
             clickScreenSharing={clickScreenSharing}
             clickChat={clickChat}
-            clickCameraDevice={clickCameraDevice}
             goToBack={goToBack}
             toggleCameraAudio={toggleCameraAudio}
             userVideoAudio={userVideoAudio["localUser"]}
             screenShare={screenShare}
-            videoDevices={videoDevices}
-            showVideoDevices={showVideoDevices}
-            setShowVideoDevices={setShowVideoDevices}
             // display={displayChat}
           />
           {/* <Chat display={displayChat} roomId={roomId} /> */}
           {/* </div> */}
         </>
+      )}
+      {analytics && (
+        <div className="analytics-overlay">
+          <Analyties />
+        </div>
       )}
       {/* {displayChat && <Chat display={displayChat} roomId={roomId} />} */}
     </>

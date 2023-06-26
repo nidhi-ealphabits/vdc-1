@@ -4,152 +4,96 @@
   display: flex;
   justify-content: center;
   background-color: rgb(240, 240, 240);
-  /* padding: 0 50px; */
-  /* align-items: center; */
-  /* padding: 15px 0px; */
-  /* padding-top: 55px; */
-  /* padding-top: 8vh; */
 }
 .one-video {
-  padding-top: 3vh;
+  margin-top: 6vh;
+  /* padding-top: 3vh; */
   height: 90vh;
-    width: 88%;
-    padding-bottom: 7vh; 
-    /* margin-left: 81px; */
- }
- 
+  width: 88%;
+  padding-bottom: 9vh;
+}
+
 .video-display-box {
-  width:100%;
+  width: 100%;
   height: 100%;
-  object-fit: fill;
+  object-fit: cover;
   border-radius: 24px;
+  transform: scaleX(-1);
 }
 
 .videocontainer {
-  height: 86vh;
+  height: 90vh;
   background-color: rgb(240, 240, 240);
   position: relative;
   margin-top: 3vh;
   flex-wrap: wrap;
-  /* background-color: black; */ 
   max-width: 100%;
-  /* max-height: 100%; */
   justify-content: center;
-  /* overflow: hidden; */
-  /* height: 92%; */
-  /* padding: 0 50px; */
   flex-direction: row;
-  /* flex-wrap: wrap; */
   display: flex;
-  /* display: grid;
-  grid-template-columns: repeat(2, 1fr); 
-  grid-gap: 10px;  */
-  /* grid-auto-rows: 500px; */
-  /* justify-content: space-around;
-  justify-items: center; */
-  /* flex-wrap: wrap; */
-  /* align-items: center; */ 
-  /* padding: 15px 0px; */
-  /* padding-top: 55px; */
-  /* padding-top: 8vh; */
-  /* box-sizing: border-box; */
-  /* gap: 12px; */
 }
-.width-peer1{
-  /* padding: 70px; */
-  /* margin-top: 50px; */
-  padding: 4vh 3vh;
+
+.analytics-overlay {
+  position: absolute;
+  top: 54px;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.width-peer1 {
+  padding: 7vh 3vh;
   width: 50%;
-  /* display: flex; */
-  /* justify-content: center; */
-  /* background-color: red; */
 }
-.width-peer2{
-  /* padding: 70px; */
-  /* margin-top: 50px; */
-  /* padding: 60px 10px; */
-  /* display: flex; */
-  /* justify-content: center; */
+.width-peer2 {
   height: 247px;
-  margin:1%;
-  width:500px;
-  /* background-color: red; */
+  margin: 1%;
+  width: 500px;
 }
-.width-peer3{
-  /* padding: 70px; */
-  /* margin-top: 50px; */
-  /* padding: 60px 10px; */
-  /* display: flex; */
-  /* justify-content: center; */
+.width-peer3 {
   height: 247px;
-  margin:1%;
-  width:500px;
-  /* background-color: red; */
+  margin: 1%;
+  width: 500px;
 }
-.width-peer4{
+.width-peer4 {
   height: 236px;
-  margin:1%;
-  width:400px;
+  margin: 1%;
+  width: 400px;
 }
-.width-peer5{
+.width-peer5 {
   height: 236px;
-  margin:1%;
-  width:400px;
+  margin: 1%;
+  width: 400px;
 }
-.width-peer6{
+.width-peer6 {
   height: 150px;
-  margin:1%;
-  width:200px;
+  margin: 1%;
+  width: 200px;
 }
-.width-peer7{
+.width-peer7 {
   height: 150px;
-  margin:1%;
-  width:200px;
+  margin: 1%;
+  width: 200px;
 }
-/* .video-card{
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-} */
+
 .video-box {
-  /* height:89vh; */
-  /* background-color: blue; */
   position: relative;
   overflow: hidden;
-  /* display: flex;
   justify-content: center;
-  align-items: center;
-  flex-direction: row; */
-  justify-content: center;
-  /* align-items: center; */
 }
 
 .video-box > video {
   top: 0;
-  left: 0; 
+  left: 0;
   width: 100%;
   height: 100%;
   border-radius: 22px;
-  object-fit: fill;
-   /* background-color: rgb(158, 19, 42); */
-  /* top: 0; */
-  /* height: 350px; */
-  /* width:350px; */
-  /* z-index: 1; */
-  /* margin-top: 350px; */
-  /* left: 0; */
-  /* width: 80%;
-    height: 100%; */
+  object-fit: cover;
+  transform: scaleX(-1);
 }
 
-/* .video-box:hover > i {
-  display: block;
-} */
-
-
-
 .UserName {
+  color: #fff;
   position: absolute;
   font-size: calc(20px + 5vmin);
   z-index: 1;
@@ -169,16 +113,6 @@
   color: red;
 }
 
-/* .MyVideo{
-  height: 250px;
-  width:250px
-} */
-/* video{
-  height: 380px;
-    width: 380px;
-} */
-
-/* Grid */
 .card-grid {
   display: flex;
   flex-wrap: wrap;
@@ -199,21 +133,16 @@
   background-color: #fff;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   border-radius: 14px;
-  /* padding: 20px; */
   width: calc((100% / 2) - 10px);
   max-width: calc((100% / 2) - 10px);
   box-sizing: border-box;
   margin-right: 20px;
-  /* margin-bottom: 20px; */
 }
 
 .personIcon {
   height: 200px;
   border-radius: 14px;
-  /* width: calc((100% / 2) - 10px); */
-  /* max-width: calc((100% / 2) - 10px); */
   box-sizing: border-box;
-  /* margin-right: 20px; */
 }
 
 @media screen and (min-width: 320px) {

@@ -6,7 +6,7 @@
   background: #f2f2f2;
   box-shadow: none;
   border-radius: 0;
-  min-height: 100vh;
+  min-height: 83vh;
   gap: 2rem;
 }
 
@@ -39,6 +39,7 @@
 }
 
 .buttons {
+  cursor: pointer;
   display: flex;
   justify-content: center;
   padding: 3vh 0 0;
@@ -47,19 +48,32 @@
 }
 
 .blue-button {
-  background-color: #27a6fb;
-  color: #ffffff;
+  /* background-color: #27a6fb;
+  color: #ffffff; */
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
   font-size: 1.8vh;
+  background-color: #f2f2f2;
   border-radius: 5px !important;
-
+  color: #000000;
   line-height: 4.2vh;
   font-family: Poppins;
   max-width: 48%;
-  cursor: pointer;
   padding: 0 35px;
+}
+
+.blue-button.active {
+  background-color: #27a6fb;
+  color: #ffffff;
+}
+
+.grey-button.active {
+  background-color: #27a6fb;
+  color: #ffffff;
+}
+.bar-chart{
+  margin-top:10vh
 }
 
 .grey-button {
@@ -74,7 +88,6 @@
   line-height: 4.2vh;
   font-family: Poppins;
   max-width: 48%;
-  cursor: pointer;
 }
 
 .first-div ul {

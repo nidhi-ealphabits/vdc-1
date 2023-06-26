@@ -12,35 +12,32 @@ import VideoOffIcon from "../../assests/VideoSlash.svg";
 import { useNavigate } from "react-router-dom";
 
 function Bottombar({
+  toggleAnalytics,
   clickChat,
-  clickCameraDevice,
   goToBack,
   toggleCameraAudio,
   userVideoAudio,
   clickScreenSharing,
-  screenShare,
-  videoDevices,
-  showVideoDevices,
-  setShowVideoDevices,
+  screenShare
 }) {
-  const [show,setShow]=useState(true)
-  const handleToggle = useCallback(
-    (e) => {
-      setShowVideoDevices((state) => !state);
-    },
-    [setShowVideoDevices]
-  );
+  // const [show,setShow]=useState(true)
+  // const handleToggle = useCallback(
+  //   (e) => {
+  //     setShowVideoDevices((state) => !state);
+  //   },
+  //   [setShowVideoDevices]
+  // );
 
   const navigate = useNavigate();
 
-  const openAnalytics = (e) => {
-    setShow(!show)
-    if (show) {
-      navigate("/analyties");
-    } else {
-      navigate("/")
-    }
-  };
+  // const openAnalytics = (e) => {
+  //   setShow(!show)
+  //   if (show) {
+  //     navigate("/analyties");
+  //   } else {
+  //     navigate("/")
+  //   }
+  // };
 
   return (
     <>
@@ -51,12 +48,12 @@ function Bottombar({
     )} */}
       <div className="container">
         <div className="bottombar">
-          <div className="analytics" onClick={openAnalytics}>
+          <div className="analytics" onClick={toggleAnalytics}>
             <img className="icon" src={Analytics}></img>
             <div className="text">Call Analytics</div>
           </div>
           <div className="activities">
-            <div className="camera-button" onClick={toggleCameraAudio} data-switch="audio">
+            <div className="camera-button" onClick={(e)=>toggleCameraAudio(e,'audio')} data-switch="audio">
               <div>
                 {userVideoAudio.audio ? (
                   <img className="icon" src={Microphone}></img>
@@ -67,7 +64,7 @@ function Bottombar({
                 )}
               </div>
             </div>
-            <div className="camera-button" onClick={toggleCameraAudio} data-switch="video">
+            <div className="camera-button" onClick={(e)=>toggleCameraAudio(e,'video')} data-switch="video">
               <div>
                 {userVideoAudio.video ? (
                   <img className="icon" src={VideoIcon}></img>

@@ -88,19 +88,11 @@ function CreateMeeting(props) {
         </Modal.Body>
         <Modal.Footer>
         <Button onClick={join}>Join Meeting</Button>
-          {/* <Details
-            link={joinLink}
-            show={showChildModal}
-            onClose={handleClose}
-          /> */}
       </Modal.Footer>
       </Modal>
     </div>
   );
 }
 
-// function ChildModal(props) {
-
-// }
 
 export default CreateMeeting;

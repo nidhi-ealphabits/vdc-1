@@ -1,6 +1,5 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {socket} from '../src/components/Socket/socket'
 import Room from "./components/Room/Room";
 import Analyties from "./components/Analyties/Analyties";
 import {Routes,Route,BrowserRouter} from 'react-router-dom'
@@ -9,7 +8,6 @@ import Main from "./components/Main/Main";
 
 function App() {
   return (
-    // <h1>Hello</h1>
     <BrowserRouter>
     <Routes>
       <Route exact path="/" element={<Main/>}></Route>

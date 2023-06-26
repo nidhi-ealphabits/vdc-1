@@ -8,20 +8,21 @@ const cors = require("cors");
 const io = require("socket.io")(http);
 const PORT = process.env.PORT || 8000;
 require("dotenv").config();
+
 let socketList = {};
 // database connection
-// const User = require("./models/schema");
 const { User, Session, Emotion } = require("./models/schema.js");
 const mongoose = require("mongoose");
 
+
 const username = process.env.DB_USERNAME;
 const password = process.env.DB_PASSWORD;
-// console.log(password)
 const connectionString = `mongodb+srv://${username}:${password}@vdc.w3uew8n.mongodb.net/`;
 
 mongoose
   // .connect(connectionString)
   .connect("mongodb+srv://nidhi:CgnDbz23ZgxLBCTc@vdc.w3uew8n.mongodb.net/")
+  // .connect('mongodb+srv://ankur:hQ4j8rKyKEKFtCH9@vdc.w3uew8n.mongodb.net/?retryWrites=true&w=majority')
   // .connect("mongodb://localhost:27017/webrtc")
   .then(() => console.log("Database Connected Successfully"))
   .catch((error) => console.log(error));
@@ -41,16 +42,9 @@ app.get("/ping", (req, res) => {
 
 app.post("/users", async (req, res) => {
   try {
-    // Retrieve values from input fields
     const name = req.body.name;
     const session = req.body.session;
-    //   // Insert values into the User collection
-    //   const a1= await User.create({ name });
-    //   // Insert values into the Session collection
-    //  const a2= await Session.create({ session });
-    //  a1.session_id.push(a2._id); // Add the session ID to the user's session_id array
-    //   await user.save(); // Save the updated user document
-    // res.send({ userId: a1._id, sessionId: a2._id });
+
     const user = await User.create({ name }); // Create a new User document
 
     let sessionDoc = await Session.findOne({ session }); // Check if a Session document with the same session name exists
@@ -58,41 +52,54 @@ app.post("/users", async (req, res) => {
     if (!sessionDoc) {
       // If no matching Session document found, create a new one
       sessionDoc = new Session({ session }); // Create a new Session document
-      await sessionDoc.save(); // Save the new Session document
     }
 
-    user.session_id.push(sessionDoc._id); // Add the session ID to the user's session_id array
+    const entryTime = new Date().toISOString(); // Capture the entry time as a string
+
+    // Set the user's entry time in the session document
+    sessionDoc.users.push({ user: user._id, entryTime }); // Add user entry time to the users array
+    await sessionDoc.save(); // Save the updated session document
+
+    user.session_id = sessionDoc._id; // Add the session ID to the user's session_id field
     await user.save(); // Save the updated user document
 
-    // sessionDoc.user_id.push(user._id); // Add the user ID to the session's user_id array
-    // await sessionDoc.save(); // Save the updated session document
-
     res.send({ userId: user._id, sessionId: sessionDoc._id });
-    // res.send('Values added to both collections successfully.');
   } catch (error) {
     console.error("Error adding values to collections:", error);
     res.status(500).send("Error adding values to collections");
   }
 });
 
-// Create an endpoint to handle the creation of emotion data
-// app.post('/emotions', async (req, res) => {
-//   console.log(req.body)
+// app.post("/users/exit", async (req, res) => {
 //   try {
-//     const userId = req.body.user_id; // Assuming the user ID is passed in the request body
-//     const emotions = req.body.emotion; // Assuming the emotion data is passed in the request body as an object
 
-//     const newEmotion = new Emotion({
-//       user_id: userId,
-//       emotion: emotions,
-//     });
+//     const userId = req.body.userId;
+    
+//     let session = await Session.findOne({ "users.0.user": userId });
 
-//     await newEmotion.save();
+//     console.log(session,"ooooooooooooooooooooooooooooooooooooooooo")
 
-//     newEmotion.user_id.push(userId);
-//     res.status(201).json(newEmotion);
+//     if (!session) {
+//       throw new Error("Session not found");
+//     }
+
+//     const user = session.users.find((u) => u.user.toString() === userId);
+
+//     console.log(user,"pppppppppppppppppppppppppppppppppppppppppp")
+//     if (!user) {
+//       throw new Error("User not found in session");
+//     }
+
+//     console.log(user,"---------------------------")
+
+//     // user.exitTime = new Date()
+//     // session.users.push({ exitTime }); // Add user entry time to the users array
+//     // await session.save();
+
+//     res.status(200).send("User exit time updated successfully");
 //   } catch (error) {
-//     res.status(500).send(error);
+//     console.error("Error updating user exit time:", error);
+//     res.status(500).send("Error updating user exit time");
 //   }
 // });
 
@@ -128,7 +135,7 @@ app.get("/emotions/:sessionId", async (req, res) => {
 
   try {
     const sessionUser = await User.find(
-      { "session_id.0": sessionId },
+      { "session_id": sessionId },
       { name: 1 }
     );
     // console.log(sessionUser)
@@ -138,10 +145,10 @@ app.get("/emotions/:sessionId", async (req, res) => {
     let allUser = sessionUser.map((userId) => userId._id);
     // console.log(allUser)
 
-    const sessionEmotion = await Emotion.find({ "user_id.0": allUser });
+    const sessionEmotion = await Emotion.find({ "user_id": allUser });
     // console.log(sessionEmotion)
     const emotionResponse = sessionEmotion.map((sessionEmotion) => {
-      const userId = sessionEmotion.user_id[0];
+      const userId = sessionEmotion.user_id;
       const user = sessionUser.find((user) => user._id.equals(userId));
       return { username: user.name, emotions: sessionEmotion.emotion };
     });
@@ -226,6 +233,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("BE-leave-room", ({ roomId, leaver }) => {
+    console.log("leaver",leaver)
     delete socketList[socket.id];
     socket.broadcast
       .to(roomId)
@@ -246,5 +254,5 @@ io.on("connection", (socket) => {
 });
 
 http.listen(PORT, () => {
-  console.log("Connected..!! ", PORT);
+console.log("Connected..!!",PORT)
 });

@@ -18,7 +18,6 @@
     "http-proxy-middleware": "^2.0.6",
     "mdbreact": "^5.2.0",
     "moongoose": "^0.0.5",
-    "process": "^0.11.10",
     "react": "^16.13.1",
     "react-bootstrap": "^2.7.4",
     "react-dom": "^16.13.1",

@@ -11,38 +11,7 @@ Landscape orientation: 992px - 1199px
 Desktops:
 
 Standard desktop screens: 1200px and above */
-/* @media (min-width: 2560px) {
-  .videoContainer{
-    height:95vh;
-    margin-top:2vh
-  }
-  .one-video{
-    padding-bottom: 3vh; 
-  }
-  .videocontainer{
-    height: 93vh;
-    margin-top:1vh
-  }
-}
-@media (max-width: 1024px) {
-  .one-video{
-    padding-bottom: 9vh; 
-  }
-  .videocontainer{
-    height: 95vh;
-    margin-top:1vh
-  }
-}
-@media (max-width: 320px) {
-  .videoContainer {
-    margin-top: 18px;
-    height: 450px;
-  }
-  .one-video {
-    padding-top: 15px;
-    height: 480px;
-  }
-} */
+
 
 @media (min-width:1900px) and (max-width:2549px){
   .videocontainer{
@@ -63,9 +32,11 @@ Standard desktop screens: 1200px and above */
   }
 }
 @media only screen and (min-width: 1610px) and (max-width: 1800px){
-  .videocontainer{
-    height: 90vh;
-    margin-top: 2vh;
+  .videoContainer {
+    height:91vh;
+  }
+  .one-video{
+    margin-top:3vh;
   }
   .width-peer2, .width-peer3{
     height:41vh;
@@ -98,6 +69,7 @@ Standard desktop screens: 1200px and above */
 
 }
 
+
 @media only screen and (min-width: 768px) and (max-width: 1024px){
 
 }
@@ -121,4 +93,21 @@ Standard desktop screens: 1200px and above */
   margin: 1%;
   width: 22vh;
 }
+}
+
+@media screen and (min-width: 1366px) {
+  .videocontainer{
+    height: 84vh;
+  }
+}
+
+@media screen and (min-width: 1680px) {
+  .video-display-box{
+    height: 86vh;
+  }
+  .one-video{
+    margin-top: 1vh;
+    padding-bottom: 0;
+  }
+  
 }
