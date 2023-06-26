@@ -213,8 +213,8 @@ function Room() {
       console.log("Emotion counts: ", emotionCounts);
       const user_id = sessionStorage.getItem("user_id");
       try {
-        // const response = await fetch("http://localhost:8000/emotions", {
-          const response = await fetch("http://15.206.231.201:8000/emotions", {
+        const response = await fetch("http://localhost:8000/emotions", {
+          // const response = await fetch("http://15.206.231.201:8000/emotions", {
           // const response = await fetch("http://testwebapp.ealphabits.com:8000/emotions", {
           method: "POST",
           headers: {
@@ -277,8 +277,8 @@ function Room() {
     sessionStorage.setItem("user", username);
 
     // posting user and session to the database
-    // fetch("http://localhost:8000/users", {
-      fetch("http://15.206.231.201:8000/users", {
+    fetch("http://localhost:8000/users", {
+      // fetch("http://15.206.231.201:8000/users", {
       // fetch("http://testwebapp.ealphabits.com:8000/users", {
       method: "POST",
       mode: "cors",
