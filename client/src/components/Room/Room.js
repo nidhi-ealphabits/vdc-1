@@ -6,7 +6,6 @@ import { Row, Col } from "react-bootstrap";
 import Bottombar from "../Bottombar/Bottombar";
 import Main from "../Main/Main";
 import Header from "../Header/Header";
-// import CardGrid from "./CardGrid";
 import socket from "../Socket/socket";
 import VideoCard from "./VideoCard";
 import "./Room.css";
@@ -214,9 +213,8 @@ function Room() {
       console.log("Emotion counts: ", emotionCounts);
       const user_id = sessionStorage.getItem("user_id");
       try {
-        const response = await fetch("http://localhost:8000/emotions", {
-          // const response = await fetch("https://testwebapp.ealphabits.com/emotions", {
-  
+        // const response = await fetch("http://localhost:8000/emotions", {
+          const response = await fetch("https://15.206.231.201:8000/emotions", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -278,8 +276,8 @@ function Room() {
     sessionStorage.setItem("user", username);
 
     // posting user and session to the database
-    fetch("http://localhost:8000/users", {
-      // fetch("https://testwebapp.ealphabits.com/users", {
+    // fetch("http://localhost:8000/users", {
+      fetch("https://15.206.231.201:8000/users", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",

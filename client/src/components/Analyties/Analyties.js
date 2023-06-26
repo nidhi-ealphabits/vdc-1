@@ -36,7 +36,8 @@ function Analyties() {
   const [activeTab, setActiveTab] = useState("pie");
   const sessionId = sessionStorage.getItem("session_id");
   useEffect(() => {
-    fetch(`http://localhost:8000/emotions/${sessionId}`)
+    // fetch(`http://localhost:8000/emotions/${sessionId}`)
+    fetch(`https://15.206.231.201:8000/emotions/${sessionId}`)
       .then((response) => response.json())
       .then((data) => {
         setResponseData(data);
