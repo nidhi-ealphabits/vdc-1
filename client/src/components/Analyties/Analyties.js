@@ -38,14 +38,14 @@ function Analyties() {
   useEffect(() => {
     // fetch(`http://localhost:8000/emotions/${sessionId}`)
     // fetch(`http://15.206.231.201:8000/emotions/${sessionId}`)
-    fetch(`https://testwebapp.ealphabits.com:8000/emotions/${sessionId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setResponseData(data);
-      })
-      .catch((error) => {
-        console.error("error in the analytics", error);
-      });
+    // fetch(`https://testwebapp.ealphabits.com:8000/emotions/${sessionId}`)
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     setResponseData(data);
+    //   })
+    //   .catch((error) => {
+    //     console.error("error in the analytics", error);
+    //   });
   }, []);
 
   // //tableData
