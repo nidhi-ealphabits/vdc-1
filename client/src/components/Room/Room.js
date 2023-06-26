@@ -49,9 +49,9 @@ function Room() {
   useEffect(() => {
     //modal for username
     setModal(true);
-    // return () => {
-    //   socket.disconnect();
-    // };
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   useEffect(() => {
@@ -60,9 +60,9 @@ function Room() {
     //   }
     // if(userVideoRef){ loadModels();}
     loadModels();
-    // return () => {
-    //   socket.disconnect();
-    // };
+    return () => {
+      socket.disconnect();
+    };
   });
 
   //  useEffect(()=>{
@@ -214,7 +214,8 @@ function Room() {
       const user_id = sessionStorage.getItem("user_id");
       try {
         // const response = await fetch("http://localhost:8000/emotions", {
-          const response = await fetch("https://15.206.231.201:8000/emotions", {
+          const response = await fetch("http://15.206.231.201:8000/emotions", {
+          // const response = await fetch("http://testwebapp.ealphabits.com:8000/emotions", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -277,7 +278,8 @@ function Room() {
 
     // posting user and session to the database
     // fetch("http://localhost:8000/users", {
-      fetch("https://15.206.231.201:8000/users", {
+      fetch("http://15.206.231.201:8000/users", {
+      // fetch("http://testwebapp.ealphabits.com:8000/users", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
@@ -429,7 +431,7 @@ function Room() {
   const goToBack = async (e) => {
     e.preventDefault();
     socket.emit("BE-leave-room", { roomId, leaver: currentUser });
-  
+    socket.disconnect()
     // Get the user ID from sessionStorage
     const userId = sessionStorage.getItem("user");
   
@@ -439,6 +441,7 @@ function Room() {
     // } catch (error) {
     //   console.error("Error updating user exit time:", error);
     // }
+
   
     sessionStorage.removeItem("user");
     navigate("/");
