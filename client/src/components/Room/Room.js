@@ -214,8 +214,8 @@ function Room() {
       const user_id = sessionStorage.getItem("user_id");
       try {
         // const response = await fetch("http://localhost:8000/emotions", {
-          // const response = await fetch("https://15.206.231.201:8000/emotions", {
-          const response = await fetch("https://testwebapp.ealphabits.com:8000/emotions", {
+          const response = await fetch("https://15.206.231.201:8000/emotions", {
+          // const response = await fetch("https://testwebapp.ealphabits.com:8000/emotions", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -279,8 +279,8 @@ function Room() {
     // setRoom(true);
     // posting user and session to the database
     // fetch("http://localhost:8000/users", {
-      // fetch("https://15.206.231.201:8000/users", {
-      fetch("https://testwebapp.ealphabits.com:8000/users", {
+      fetch("https://15.206.231.201:8000/users", {
+      // fetch("https://testwebapp.ealphabits.com:8000/users", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
