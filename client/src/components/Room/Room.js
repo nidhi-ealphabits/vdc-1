@@ -212,28 +212,28 @@ function Room() {
 
       console.log("Emotion counts: ", emotionCounts);
       const user_id = sessionStorage.getItem("user_id");
-      // try {
-      //   // const response = await fetch("http://localhost:8000/emotions", {
-      //     // const response = await fetch("http://15.206.231.201:8000/emotions", {
-      //     const response = await fetch("https://testwebapp.ealphabits.com:8000/emotions", {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify({
-      //       user_id: user_id,
-      //       emotion: emotionCounts,
-      //     }),
-      //   });
+      try {
+        // const response = await fetch("http://localhost:8000/emotions", {
+          // const response = await fetch("https://15.206.231.201:8000/emotions", {
+          const response = await fetch("https://testwebapp.ealphabits.com:8000/emotions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user_id: user_id,
+            emotion: emotionCounts,
+          }),
+        });
   
-      //   // if (response.ok) {
-      //   //   console.log("Emotion data sent successfully");
-      //   // } else {
-      //   //   console.error("Error sending emotion data:", response.statusText);
-      //   // }
-      // } catch (error) {
-      //   console.error("Error sending emotion data:", error);
-      // }
+        // if (response.ok) {
+        //   console.log("Emotion data sent successfully");
+        // } else {
+        //   console.error("Error sending emotion data:", response.statusText);
+        // }
+      } catch (error) {
+        console.error("Error sending emotion data:", error);
+      }
 
     }, 1000);
   
@@ -275,37 +275,37 @@ function Room() {
       return;
     }
     sessionStorage.setItem("user", username);
-    setModal(false);
-    setRoom(true);
+    // setModal(false);
+    // setRoom(true);
     // posting user and session to the database
     // fetch("http://localhost:8000/users", {
-      // fetch("http://15.206.231.201:8000/users", {
-    //   fetch("https://testwebapp.ealphabits.com:8000/users", {
-    //   method: "POST",
-    //   mode: "cors",
-    //   cache: "no-cache",
-    //   credentials: "same-origin",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   redirect: "follow",
-    //   referrerPolicy: "no-referrer",
-    //   body: JSON.stringify({
-    //     name: username,
-    //     session: roomId,
-    //   }),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     // console.log("data",data)
-    //     sessionStorage.setItem("user", username);
-    //     sessionStorage.setItem("user_id", data.userId);
-    //     sessionStorage.setItem("session_id", data.sessionId);
-    //     setModal(false);
-    //     setRoom(true);
-    //     // props.onClose();
-    //   })
-    //   .catch((err) => console.error(err));
+      // fetch("https://15.206.231.201:8000/users", {
+      fetch("https://testwebapp.ealphabits.com:8000/users", {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
+      body: JSON.stringify({
+        name: username,
+        session: roomId,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // console.log("data",data)
+        sessionStorage.setItem("user", username);
+        sessionStorage.setItem("user_id", data.userId);
+        sessionStorage.setItem("session_id", data.sessionId);
+        setModal(false);
+        setRoom(true);
+        // props.onClose();
+      })
+      .catch((err) => console.error(err));
     e.preventDefault();
   };
 
