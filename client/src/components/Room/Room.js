@@ -2,10 +2,11 @@ import React, { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Peer from "simple-peer";
 import Analyties from "../Analyties/Analyties";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Toast } from "react-bootstrap";
 import Bottombar from "../Bottombar/Bottombar";
 import Main from "../Main/Main";
 import Header from "../Header/Header";
+// import CardGrid from "./CardGrid";
 import socket from "../Socket/socket";
 import VideoCard from "./VideoCard";
 import "./Room.css";
@@ -14,6 +15,8 @@ import { Modal, Button, FloatingLabel, Form } from "react-bootstrap";
 import Chat from "../Chat/Chat";
 import * as faceapi from "face-api.js";
 import axios from "axios";
+// import { display } from "@mui/system";
+let intervalId = null;
 
 function Room() {
   const [username, setUserName] = useState("");
@@ -33,6 +36,8 @@ function Room() {
   const userStream = useRef();
   const [modal, setModal] = useState(false);
   const [room, setRoom] = useState(false);
+  const [isStreamOn, setIsStreamOn] = useState(false);
+  const streamRef = useRef(null);
   // const roomId = props.match.params.path;
   const regex = /^[a-zA-Z0-9_-\s]+$/;
   const navigate = useNavigate();
@@ -49,9 +54,9 @@ function Room() {
   useEffect(() => {
     //modal for username
     setModal(true);
-    return () => {
-      socket.disconnect();
-    };
+    // return () => {
+    //   socket.disconnect();
+    // };
   }, []);
 
   useEffect(() => {
@@ -59,22 +64,23 @@ function Room() {
     // loadModels();
     //   }
     // if(userVideoRef){ loadModels();}
-    loadModels();
-    return () => {
-      socket.disconnect();
-    };
-  });
+
+    isStreamOn && loadModels();
+    // return () => {
+    //   socket.disconnect();
+    // };
+  }, [isStreamOn]);
 
   //  useEffect(()=>{
   //       //  setTimeout(() => {
-  //     sendDataToDb();      
+  //     sendDataToDb();
   //   // }, 3000);
   // },[])
 
   useEffect(() => {
     // console.log(roomId)
     if (room) {
-      userVideoRef && sendDataToDb()
+      userVideoRef && sendDataToDb();
       // if(userVideoRef){ sendDataToDb()}
       setModal(false);
 
@@ -98,6 +104,9 @@ function Room() {
       navigator.mediaDevices
         .getUserMedia({ video: true, audio: true })
         .then((stream) => {
+          streamRef.current = stream; // Store the stream in a ref
+          setIsStreamOn(true);
+
           userVideoRef.current.srcObject = stream;
           userStream.current = stream;
           socket.emit("BE-join-room", { roomId, userName: currentUser });
@@ -206,38 +215,38 @@ function Room() {
     // eslint-disable-next-line
   }, [room]);
 
-  const sendDataToDb = async()=>{
-      setInterval(async() => {
-      const emotionCounts = JSON.parse(sessionStorage.getItem("emotionCounts"))
+  const sendDataToDb = async () => {
+    setInterval(async () => {
+      const emotionCounts = JSON.parse(sessionStorage.getItem("emotionCounts"));
 
-      console.log("Emotion counts: ", emotionCounts);
-      const user_id = sessionStorage.getItem("user_id");
-      try {
-        // const response = await fetch("http://localhost:8000/emotions", {
-          const response = await fetch("https://15.206.231.201:8000/emotions", {
-          // const response = await fetch("https://testwebapp.ealphabits.com:8000/emotions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            user_id: user_id,
-            emotion: emotionCounts,
-          }),
-        });
-  
-        // if (response.ok) {
-        //   console.log("Emotion data sent successfully");
-        // } else {
-        //   console.error("Error sending emotion data:", response.statusText);
-        // }
-      } catch (error) {
-        console.error("Error sending emotion data:", error);
-      }
+      // if (emotionCounts != null) {
+      //   console.log("Emotion counts: ", emotionCounts);
+      //   const user_id = sessionStorage.getItem("user_id");
+      //   try {
+      //     const response = await fetch("http://localhost:8000/emotions", {
+      //       // const response = await fetch("https://testwebapp.ealphabits.com/emotions", {
 
+      //       method: "POST",
+      //       headers: {
+      //         "Content-Type": "application/json",
+      //       },
+      //       body: JSON.stringify({
+      //         user_id: user_id,
+      //         emotion: emotionCounts,
+      //       }),
+      //     });
+
+      //     if (response.ok) {
+      //       console.log("Emotion data sent successfully");
+      //     } else {
+      //       console.error("Error sending emotion data:", response.statusText);
+      //     }
+      //   } catch (error) {
+      //     console.error("Error sending emotion data:", error);
+      //   }
+      // }
     }, 1000);
-  
-  }
+  };
 
   // if (room) {
   //  userVideoRef &&  loadModels();
@@ -275,37 +284,36 @@ function Room() {
       return;
     }
     sessionStorage.setItem("user", username);
-    // setModal(false);
-    // setRoom(true);
-    // posting user and session to the database
-    // fetch("http://localhost:8000/users", {
-      fetch("https://15.206.231.201:8000/users", {
-      // fetch("https://testwebapp.ealphabits.com:8000/users", {
-      method: "POST",
-      mode: "cors",
-      cache: "no-cache",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
-      body: JSON.stringify({
-        name: username,
-        session: roomId,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // console.log("data",data)
-        sessionStorage.setItem("user", username);
-        sessionStorage.setItem("user_id", data.userId);
-        sessionStorage.setItem("session_id", data.sessionId);
-        setModal(false);
+    setModal(false);
         setRoom(true);
-        // props.onClose();
-      })
-      .catch((err) => console.error(err));
+    // // posting user and session to the database
+    // fetch("http://localhost:8000/users", {
+    //   // fetch("https://testwebapp.ealphabits.com/users", {
+    //   method: "POST",
+    //   mode: "cors",
+    //   cache: "no-cache",
+    //   credentials: "same-origin",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   redirect: "follow",
+    //   referrerPolicy: "no-referrer",
+    //   body: JSON.stringify({
+    //     name: username,
+    //     session: roomId,
+    //   }),
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     // console.log("data",data)
+    //     sessionStorage.setItem("user", username);
+    //     sessionStorage.setItem("user_id", data.userId);
+    //     sessionStorage.setItem("session_id", data.sessionId);
+    //     setModal(false);
+    //     setRoom(true);
+    //     // props.onClose();
+    //   })
+    //   .catch((err) => console.error(err));
     e.preventDefault();
   };
 
@@ -322,7 +330,7 @@ function Room() {
 
   //emotion Detection Function
   const faceDetection = async () => {
-    setInterval(async () => {
+    intervalId = setInterval(async () => {
       const detections = await faceapi
         .detectAllFaces(
           userVideoRef.current,
@@ -357,7 +365,7 @@ function Room() {
           console.log("unknown emotion", highestEmotion1);
         }
 
-        sessionStorage.setItem("emotionCounts",JSON.stringify(emotionCounts))
+        sessionStorage.setItem("emotionCounts", JSON.stringify(emotionCounts));
       }
     }, 3000);
   };
@@ -414,7 +422,13 @@ function Room() {
     if (userVideoAudio.hasOwnProperty(userName)) {
       if (!userVideoAudio[userName].video) {
         return (
-          <div className="UserName" key={userName}>
+          <div className="UserName video-off" key={userName}>
+            {userName}
+          </div>
+        );
+      } else {
+        return (
+          <div className="UserName video-on" key={userName}>
             {userName}
           </div>
         );
@@ -425,27 +439,42 @@ function Room() {
   // Open Chat
   const clickChat = (e) => {
     e.stopPropagation();
+    // setDisplayChat((state) => !state);
     setDisplayChat(!displayChat);
+    console.log("display", displayChat);
   };
 
   // BackButton
   const goToBack = async (e) => {
     e.preventDefault();
-    socket.emit("BE-leave-room", { roomId, leaver: currentUser });
-    socket.disconnect()
-    // Get the user ID from sessionStorage
-    const userId = sessionStorage.getItem("user");
-  
-    // // Make a POST request to update the user's exit time
     // try {
-    //   await axios.post("/users/exit", { userId });
+    //   await axios.post(`/users/${currentUser}/exitTime`);
     // } catch (error) {
     //   console.error("Error updating user exit time:", error);
     // }
+    socket.emit("BE-leave-room", { roomId, leaver: currentUser });
+    clearInterval(intervalId);
+    sessionStorage.removeItem("emotionCounts");
+    socket.disconnect();
+    // const streamData = userVideoRef.current.srcObject;
 
-  
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach((track) => {
+        track.stop();
+      });
+      streamRef.current = null; // Clear the stored stream reference
+      userVideoRef.current.srcObject = null;
+    }
+
     sessionStorage.removeItem("user");
     navigate("/");
+
+    // setTimeout(() => {
+    //   toggleAnalytics();
+    // }, 1000);
+    // setTimeout(() => {
+    //   window.location.reload();
+    // }, 500);
   };
 
   //for toggling audio and video
@@ -490,6 +519,8 @@ function Room() {
       navigator.mediaDevices
         .getDisplayMedia({ cursor: true })
         .then((stream) => {
+          streamRef.current = stream; // Store the stream in a ref
+          setIsStreamOn(true);
           const screenTrack = stream.getTracks()[0];
 
           peersRef.current.forEach(({ peer }) => {
@@ -530,15 +561,17 @@ function Room() {
   //function for toggling the anaytics
   const toggleAnalytics = () => {
     setAnalytics((state) => !state);
-    console.log("Hello", analytics);
   };
+  const closeChat=()=>{
+    setDisplayChat(false);
+  }
 
   return (
     <>
       {modal && (
         <>
           <Modal show={modal} onHide={handleClose} backdrop="static" centered>
-            <Modal.Header closeButton>
+            <Modal.Header >
               {/* <Modal.Title>Child Modal</Modal.Title> */}
             </Modal.Header>
             <Modal.Body>
@@ -555,7 +588,7 @@ function Room() {
             </Modal.Body>
             <Modal.Footer>
               <Button style={{ margin: "4px", width: "112px" }} onClick={join}>
-                join
+                Join
               </Button>
             </Modal.Footer>
           </Modal>
@@ -563,15 +596,21 @@ function Room() {
       )}
       {room && (
         <>
-          {/* } */}
+          {/* <div>*/}
           <Header />
           <div style={{ zIndex: 1 }}>
             {peers.length === 0 ? (
               <div className="videoContainer">
                 <div className="one-video">
-                  {userVideoAudio["localUser"].video ? null : (
-                    <div className="UserName">{currentUser}</div>
-                  )}
+                  <div
+                    className={`UserName ${
+                      userVideoAudio["localUser"].video
+                        ? "video-on"
+                        : "video-off"
+                    }`}
+                  >
+                    {currentUser}
+                  </div>
                   {/* {writeUserName(peer.currentUser)} */}
                   {/* <i className="fas fa-expand"></i> */}
                   <video
@@ -590,9 +629,15 @@ function Room() {
                     peers.length > 10 ? "" : peers.length
                   }`}
                 >
-                  {userVideoAudio["localUser"].video ? null : (
-                    <div className="UserName">{currentUser}</div>
-                  )}
+                  <div
+                    className={`UserName ${
+                      userVideoAudio["localUser"].video
+                        ? "video-on"
+                        : "video-off"
+                    }`}
+                  >
+                    {currentUser}
+                  </div>
                   {/* {writeUserName(peer.currentUser)} */}
                   {/* <i className="fas fa-expand"></i> */}
                   <video
@@ -620,6 +665,21 @@ function Room() {
               </div>
             )}
           </div>
+          {/* <Toast
+            className="toastContainer"
+            // className={`toastContainer ${displayChat ? '' : 'width0'}`}
+            show={displayChat}
+            onClose={clickChat}
+          >
+            <Toast.Header>
+              <strong className="me-auto">Chat</strong>
+            </Toast.Header>
+            <Toast.Body> */}
+              {/* <Chat display={displayChat} roomId={roomId} />
+            </Toast.Body>
+          </Toast>  */}
+          <Chat display={displayChat} roomId={roomId} closeChat={closeChat} />
+
           {/* <div style={{ zIndex: 1 }}> */}
           <Bottombar
             toggleAnalytics={toggleAnalytics}
@@ -631,7 +691,8 @@ function Room() {
             screenShare={screenShare}
             // display={displayChat}
           />
-          {/* <Chat display={displayChat} roomId={roomId} /> */}
+
+          {/* {displayChat && <Chat display={displayChat} roomId={roomId} />} */}
           {/* </div> */}
         </>
       )}

@@ -75,7 +75,7 @@ function Bottombar({
                 )}
               </div>
             </div>
-            <div onClick={clickScreenSharing}>
+            <div >
               <img className="icon" src={Screenshare}></img>
             </div>
             <div className="call-container" onClick={goToBack}>

@@ -19,13 +19,13 @@ const username = process.env.DB_USERNAME;
 const password = process.env.DB_PASSWORD;
 const connectionString = `mongodb+srv://${username}:${password}@vdc.w3uew8n.mongodb.net/`;
 
-mongoose
-  // .connect(connectionString)
-  .connect("mongodb+srv://nidhi:CgnDbz23ZgxLBCTc@vdc.w3uew8n.mongodb.net/")
-  // .connect('mongodb+srv://ankur:hQ4j8rKyKEKFtCH9@vdc.w3uew8n.mongodb.net/?retryWrites=true&w=majority')
-  // .connect("mongodb://localhost:27017/webrtc")
-  .then(() => console.log("Database Connected Successfully"))
-  .catch((error) => console.log(error));
+// mongoose
+//   // .connect(connectionString)
+//   // .connect("mongodb+srv://nidhi:CgnDbz23ZgxLBCTc@vdc.w3uew8n.mongodb.net/")
+//   // .connect('mongodb+srv://ankur:hQ4j8rKyKEKFtCH9@vdc.w3uew8n.mongodb.net/?retryWrites=true&w=majority')
+//   // .connect("mongodb://localhost:27017/webrtc")
+//   .then(() => console.log("Database Connected Successfully"))
+//   .catch((error) => console.log(error));
 
 app.use(express.static(path.join(__dirname, "../client/build")));
 app.use(express.json());

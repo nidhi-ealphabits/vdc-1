@@ -4,6 +4,7 @@ import Logo from '../../assests/Logo.png'
 import './Header.css'
 
 function Header() {
+  const path= sessionStorage.getItem("path")
   return (
     <>
       <div className="logo-header">
@@ -11,7 +12,7 @@ function Header() {
           <img className="sgvp-logo" src={Logo}></img>
         </div>
         <div className="header-text">
-          <div className="analyties-text">Team Meeting</div>
+          <div className="analyties-text">{path}</div>
         </div>
       </div>
     </>
