@@ -37,14 +37,14 @@ function Analytics() {
   const [activeTab, setActiveTab] = useState("pie");
   const sessionId = sessionStorage.getItem("session_id");
   useEffect(() => {
-    fetch(`http://localhost:8000/emotions/${sessionId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setResponseData(data);
-      })
-      .catch((error) => {
-        console.error("error in the analytics", error);
-      });
+    // fetch(`http://localhost:8000/emotions/${sessionId}`)
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     setResponseData(data);
+    //   })
+    //   .catch((error) => {
+    //     console.error("error in the analytics", error);
+    //   });
   }, []);
 
   // //tableData
