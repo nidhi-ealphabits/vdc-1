@@ -468,7 +468,8 @@ function Room() {
   // BackButton
   const goToBack = async (e) => {
     e.preventDefault();
-    navigate("/analytics");
+    navigate('/')
+    // navigate("/analytics");
     try {
       await axios.post(`/users/${currentUser}/exitTime`);
     } catch (error) {
