@@ -4,7 +4,8 @@
   justify-content: space-between;
   align-items: center;
   background-color: rgb(240,240, 240);
-  padding: 10px;
+  padding: 16px 94px;
+  /* padding: 10px; */
   position: fixed;
   bottom: 0;
   left: 0;
@@ -39,9 +40,7 @@
 }
 .activities div {
   cursor: pointer;
-  /* pointer-events: none; */
   flex-grow: 0.1;
-  /* margin-left: 20px; */
   width: 35px;
   height: 45px;
   display: flex;
@@ -109,7 +108,6 @@
     margin: 10px 0;
   }
   .activities div {
-    /* flex-grow:0.2; */
     width: 40px;
     height: 40px;
     margin: 0 2px;
@@ -126,7 +124,6 @@
     border-radius: 50%;
   }
   .activities .call-container img {
-    /* margin-top: 0; */
     height: 60px;
     width: 60px;
   }
@@ -141,7 +138,9 @@
     height: 40px;
   }
 }
-
-
-
+@media only screen and (min-width: 1360px) and (max-width: 1605px){
+  .bottombar{
+    padding: 15px 24px;
+  }
+}
 

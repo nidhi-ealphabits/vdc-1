@@ -48,10 +48,11 @@ function Bottombar({
     )} */}
       <div className="container">
         <div className="bottombar">
-          <div className="analytics" onClick={toggleAnalytics}>
-            <img className="icon" src={Analytics}></img>
-            <div className="text">Call Analytics</div>
-          </div>
+          <div></div>
+          {/* <div className="analytics"> */}
+            {/* <img className="icon"  src={Analytics}></img> */}
+            {/* <div className="text">Call Analytics</div> */}
+          {/* </div> */}
           <div className="activities">
             <div className="camera-button" onClick={(e)=>toggleCameraAudio(e,'audio')} data-switch="audio">
               <div>
@@ -75,7 +76,7 @@ function Bottombar({
                 )}
               </div>
             </div>
-            <div >
+            <div onClick={clickScreenSharing}>
               <img className="icon" src={Screenshare}></img>
             </div>
             <div className="call-container" onClick={goToBack}>

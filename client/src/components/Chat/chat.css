@@ -1,3 +1,26 @@
+/* chat.css */
+
+/* .chat-container { */
+  /* display: flex;
+  flex-direction: column;
+  width: 25%;
+  height: 100%;
+  background-color: white;
+  transition: all 0.5s ease;
+  overflow: hidden; */
+  /* second
+  background: var(--hotlane-background-color);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  opacity: 1;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 25%; */
+/* } */
+
 .chat-container {
   margin-top: 39vh;
   position: absolute;
@@ -10,6 +33,7 @@
   overflow: hidden;
   margin-right: 20px;
   border-radius: 10px;
+  z-index: 1;
 }
 
 .width0 {

@@ -43,6 +43,10 @@
   background-color: rgba(0, 0, 0, 0.5);
 }
 
+.analytics-content {
+  background-color: #f0f0f0;
+}
+
 .toast-header{
   margin-top:1vh
 }
@@ -103,19 +107,26 @@
   z-index: 1;
 }
 .video-on {
-  color: white;
+  color: black;
     font-size: 3.5vh;
     left: 8%;
     top: 81%;
 }
 .video-off {
   color: white;
-    font-size: 8vh;
+    font-size: 4vh;
     left: 50%;
     top: 50%;
     transform: translate(-50%,-50%);
 }
-
+.audio-off{
+    height: 3vh;
+    z-index: 1;
+    /* font-size: 3.5vh; */
+    left: 90%;
+    top: 82%;
+    position: absolute;
+}
 .modal-header {
   border-bottom: none;
 }

@@ -19,13 +19,13 @@ const username = process.env.DB_USERNAME;
 const password = process.env.DB_PASSWORD;
 const connectionString = `mongodb+srv://${username}:${password}@vdc.w3uew8n.mongodb.net/`;
 
-// mongoose
-//   // .connect(connectionString)
-//   // .connect("mongodb+srv://nidhi:CgnDbz23ZgxLBCTc@vdc.w3uew8n.mongodb.net/")
-//   // .connect('mongodb+srv://ankur:hQ4j8rKyKEKFtCH9@vdc.w3uew8n.mongodb.net/?retryWrites=true&w=majority')
-//   // .connect("mongodb://localhost:27017/webrtc")
-//   .then(() => console.log("Database Connected Successfully"))
-//   .catch((error) => console.log(error));
+mongoose
+  // .connect(connectionString)
+  .connect("mongodb+srv://nidhi:CgnDbz23ZgxLBCTc@vdc.w3uew8n.mongodb.net/")
+  // .connect('mongodb+srv://ankur:hQ4j8rKyKEKFtCH9@vdc.w3uew8n.mongodb.net/?retryWrites=true&w=majority')
+  // .connect("mongodb://localhost:27017/webrtc")
+  .then(() => console.log("Database Connected Successfully"))
+  .catch((error) => console.log(error));
 
 app.use(express.static(path.join(__dirname, "../client/build")));
 app.use(express.json());
@@ -130,6 +130,33 @@ app.post("/emotions", async (req, res) => {
   }
 });
 
+//user exit time 
+
+app.post("/users/:userId/exitTime", async (req, res) => {
+  try {
+    const userId = req.params.userId; // Get the user ID from the request parameters
+    const exitTime = new Date().toISOString(); // Capture the exit time as a string
+
+    // Find the user by ID and update their exit time
+    const user = await User.findOneAndUpdate({name:userId}, { exitTime }, { new: true });
+    // Find the session associated with the user
+    const sessionDoc = await Session.findById(user.session_id);
+    // Find the user's entry time in the session document and update it with the exit time
+    const userEntry = sessionDoc.users.find(entry => entry.user.equals(user._id));
+    userEntry.exitTime = exitTime;
+    await sessionDoc.save(); // Save the updated session document
+
+    res.send({ userId: user._id, sessionId: sessionDoc._id });
+  } catch (error) {
+    console.error("Error updating exit time:", error);
+    res.status(500).send("Error updating exit time");
+  }
+});
+
+
+
+
+//getting emotions
 app.get("/emotions/:sessionId", async (req, res) => {
   const sessionId = req.params.sessionId;
 
@@ -158,6 +185,10 @@ app.get("/emotions/:sessionId", async (req, res) => {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
+});
+
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
 // Socket

@@ -4,7 +4,10 @@ import Logo from '../../assests/Logo.png'
 import './Header.css'
 
 function Header() {
-  const path= sessionStorage.getItem("path")
+  // const path = window.location.pathname;
+  // const roomId = path.substring(1);
+
+  const path=sessionStorage.getItem("session")
   return (
     <>
       <div className="logo-header">

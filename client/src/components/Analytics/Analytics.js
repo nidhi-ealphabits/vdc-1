@@ -4,10 +4,11 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import "./analyties.css";
+import "./analytics.css";
 import { MDBDataTable } from "mdbreact";
 import "./table.css";
 import { Chart } from "react-google-charts";
+import Header from "../Header/Header";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -31,21 +32,19 @@ const options = {
   colors: ["#CD298E", "#187DF1", "#4153DE", "#FFAF43"],
 };
 
-function Analyties() {
+function Analytics() {
   const [responseData, setResponseData] = useState();
   const [activeTab, setActiveTab] = useState("pie");
   const sessionId = sessionStorage.getItem("session_id");
   useEffect(() => {
-    // fetch(`http://localhost:8000/emotions/${sessionId}`)
-    // fetch(`https://15.206.231.201:8000/emotions/${sessionId}`)
-    // // fetch(`https://testwebapp.ealphabits.com:8000/emotions/${sessionId}`)
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setResponseData(data);
-    //   })
-    //   .catch((error) => {
-    //     console.error("error in the analytics", error);
-    //   });
+    fetch(`http://localhost:8000/emotions/${sessionId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setResponseData(data);
+      })
+      .catch((error) => {
+        console.error("error in the analytics", error);
+      });
   }, []);
 
   // //tableData
@@ -154,12 +153,12 @@ function Analyties() {
     // ["2015", 1170, 460, 250],
     // ["2016", 660, 1120, 300],
     // ["2017", 1030, 540, 350],
-    ["call Analyties","Happy", "Sad", "Surprise", "neutral"],
+    ["call Analytics","Happy", "Sad", "Surprise", "neutral"],
     ["emotions",averageHappy, averageSad, averageSurprise, averageNeutral],
   ];
   
  const chartOptions = {
-  title: "Call Analyties",
+  title: "Call Analytics",
     legend: { position: "none" },
   };
   // Function to handle tab selection
@@ -216,6 +215,7 @@ function Analyties() {
 
   return (
     <>
+    <Header/>
       <div className="parent">
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
@@ -266,4 +266,4 @@ function Analyties() {
   );
 }
 
-export default Analyties;
+export default Analytics;
